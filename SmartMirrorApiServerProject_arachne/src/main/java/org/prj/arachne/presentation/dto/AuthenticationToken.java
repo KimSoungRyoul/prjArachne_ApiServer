@@ -1,8 +1,6 @@
 package org.prj.arachne.presentation.dto;
 
 import java.util.Collection;
-import java.util.Set;
-
 import org.prj.arachne.domain.member.MemberAuthority;
 
 import lombok.AllArgsConstructor;

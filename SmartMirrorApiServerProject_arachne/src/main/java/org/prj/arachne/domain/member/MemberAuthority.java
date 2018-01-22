@@ -18,7 +18,6 @@ import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

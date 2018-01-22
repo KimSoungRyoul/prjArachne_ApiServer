@@ -14,12 +14,10 @@ import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
 import org.prj.arachne.domain.member.repository.MemberInfoRepository;
 import org.prj.arachne.domain.member.valueObj.AuthorityType;
 import org.prj.arachne.domain.member.valueObj.Gender;
-import org.prj.arachne.domain.member.valueObj.MemberId;
 import org.prj.arachne.domain.member.valueObj.Password;
 import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
 import org.prj.arachne.domain.member.valueObj.PhysicalType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
