@@ -7,6 +7,7 @@ import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.presentation.dto.AuthenticationRequest;
 import org.prj.arachne.presentation.dto.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
