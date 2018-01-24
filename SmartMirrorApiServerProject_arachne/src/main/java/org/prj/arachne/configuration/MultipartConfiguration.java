@@ -12,7 +12,7 @@ public class MultipartConfiguration {
 	@Bean("uploadPath")
 	@Profile("dev")
 	public String uploadPath() {
-		return "D:\\personalProject\\SummerTeamProject2017";
+		return "C:\\ArachneProject\\testMedia";
 	}
 
 	@Bean("uploadPath")

@@ -1,11 +1,16 @@
 package org.prj.arachne.application;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.prj.arachne.domain.fileinfo.FileInfo;
+import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
+import org.prj.arachne.domain.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberAuthority;
 import org.prj.arachne.domain.member.MemberInfo;
@@ -38,16 +43,25 @@ public class InitService {
 	
 	PasswordEncoder passwordEncoder;
 
+	FileInfoRepository fInfoRepository;
 	
+
+	
+
+
 	@Autowired
 	public InitService(MemberAccountRepository mRepo, MemberAuthorityRepository mAuthRepo,
-			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder) {
+			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder, FileInfoRepository fInfoRepository) {
 		super();
 		this.mRepo = mRepo;
 		this.mAuthRepo = mAuthRepo;
 		this.mInfoRepo = mInfoRepo;
 		this.passwordEncoder = passwordEncoder;
+		this.fInfoRepository = fInfoRepository;
 	}
+
+
+
 
 
 
@@ -87,6 +101,23 @@ public class InitService {
 		
 		mAuth.setAuthOwner(mAcc);
 		mAuthRepo.save(mAuth);
+		
+		String fileLocation=new StringBuilder()
+								.append(File.separator)
+								.append(mAcc.getEmail())
+								.append(File.separator)
+								.append("스토커 (feat  크루셜스타)_매드 클라운_표독.mp3")
+								.toString();
+		
+		FileInfo fInfo=new FileInfo(null, null, fileLocation, "stalker", new Date(), FileType.MP3, SaveStatus.REGISTERED);		
+		
+		fInfoRepository.save(fInfo);
+		
+		
+		fInfo.setMAccount(mAcc);
+		
+		fInfoRepository.save(fInfo);
+			
 		
 	}
 	

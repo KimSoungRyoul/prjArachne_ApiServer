@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/oauth2")
+@RequestMapping("/oauth")
 @Slf4j
 public class AuthenticationApi {
 	
@@ -35,13 +35,14 @@ public class AuthenticationApi {
 	
 	
 	
-	@PostMapping("/login")
+	@PostMapping("/authorize")
 	public AuthenticationToken login(@RequestBody AuthenticationRequest authenticationRequest, HttpSession session) {
 		String userEmail = authenticationRequest.getUserEmail();
 		String password = authenticationRequest.getPassword();
 		
 		log.info(authenticationRequest.toString());
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userEmail, password);
+		
 		log.info(token.toString());
 		Authentication authentication = authenticationManager.authenticate(token);
 		

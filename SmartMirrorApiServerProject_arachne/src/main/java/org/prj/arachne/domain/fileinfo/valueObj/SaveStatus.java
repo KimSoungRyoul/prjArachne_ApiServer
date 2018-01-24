@@ -1,4 +1,4 @@
-package org.prj.arachne.domain.fileinfo;
+package org.prj.arachne.domain.fileinfo.valueObj;
 
 public enum SaveStatus {
 
