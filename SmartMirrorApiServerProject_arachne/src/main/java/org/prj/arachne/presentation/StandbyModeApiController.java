@@ -40,7 +40,7 @@ public class StandbyModeApiController {
 	 	StatusEntity status=new StatusEntity();
 	 	status.setApiType("기상청관측자료(종관 일자료)OpenApi");
 	 	status.setMessage("SUCCSS");
-	 	status.setStatusCode("200");
+	 	status.setStatusCode(HttpStatus.OK);
 	 	
 	 	values.put("status", status);
 	 	values.put("weathers", weatehrDTOs);
