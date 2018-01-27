@@ -17,7 +17,7 @@ public class ContentsService {
 		
 		
 		FileInfo info= fileInfoRepo.findByMAccountEmailAndFileName(email, fileName);
-		
+		System.out.println("asdfasdf");
 		return info;
 		
 	}
