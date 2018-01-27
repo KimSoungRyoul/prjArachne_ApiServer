@@ -3,6 +3,7 @@ package org.prj.arachne.presentation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class HomeController {
 		Map<String, Object> response=new HashMap<>();
 		
 		response.put("status", new StatusEntity("Api", 
-												HttpStatus.UNAUTHORIZED,
+												ArachneStatus.UNAUTHORIZED,
 												"토큰에 해당api 사용권한 권한없음 토큰의 만료, 토큰의 권한 등을 검토하세요 ")
 				);
 		

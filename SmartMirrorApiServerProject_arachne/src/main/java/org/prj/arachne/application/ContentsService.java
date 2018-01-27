@@ -22,4 +22,12 @@ public class ContentsService {
 		
 	}
 	
+	
+	
+	@Transactional
+	public void registerContents(FileInfo fileInfo) {
+		
+		
+		
+	}
 }

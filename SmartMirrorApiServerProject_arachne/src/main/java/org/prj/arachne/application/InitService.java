@@ -109,7 +109,7 @@ public class InitService {
 								.append("스토커 (feat  크루셜스타)_매드 클라운_표독.mp3")
 								.toString();
 		
-		FileInfo fInfo=new FileInfo(null, null, fileLocation, "stalker", new Date(), FileType.MP3, SaveStatus.REGISTERED);		
+		FileInfo fInfo=new FileInfo(null, null, fileLocation, "stalker", new Date(), FileType.MP3, SaveStatus.HAS_OWNER);		
 		
 		fInfoRepository.save(fInfo);
 		

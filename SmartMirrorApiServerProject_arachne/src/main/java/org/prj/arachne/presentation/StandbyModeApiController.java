@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.prj.arachne.util.WeatherOpenApiUtil;
 import org.prj.arachne.util.dto.PlaceCode;
@@ -40,7 +41,7 @@ public class StandbyModeApiController {
 	 	StatusEntity status=new StatusEntity();
 	 	status.setApiType("기상청관측자료(종관 일자료)OpenApi");
 	 	status.setMessage("SUCCSS");
-	 	status.setStatusCode(HttpStatus.OK);
+	 	status.setStatusCode(ArachneStatus.SUCCESS);
 	 	
 	 	values.put("status", status);
 	 	values.put("weathers", weatehrDTOs);
