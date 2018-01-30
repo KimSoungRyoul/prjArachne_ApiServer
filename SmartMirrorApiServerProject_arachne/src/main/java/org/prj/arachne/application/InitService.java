@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 
 import org.prj.arachne.domain.fileinfo.FileInfo;
+import org.prj.arachne.domain.fileinfo.FileInfoId;
 import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
 import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
@@ -109,12 +110,12 @@ public class InitService {
 								.append("스토커 (feat  크루셜스타)_매드 클라운_표독.mp3")
 								.toString();
 		
-		FileInfo fInfo=new FileInfo(null, null, fileLocation, "stalker", new Date(), FileType.MP3, SaveStatus.HAS_OWNER);		
+		FileInfo fInfo=new FileInfo(new FileInfoId(new MemberAccount("KimSoungRyoul@gmail.com"), "stalker") ,fileLocation, new Date(), FileType.MP3, SaveStatus.HAS_OWNER);		
 		
 		fInfoRepository.save(fInfo);
 		
 		
-		fInfo.setMAccount(mAcc);
+		fInfo.getId().setMAccount(mAcc);
 		
 		fInfoRepository.save(fInfo);
 			

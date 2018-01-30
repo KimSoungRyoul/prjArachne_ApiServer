@@ -3,7 +3,12 @@ package org.prj.arachne;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.presentation.dto.AuthenticationRequest;
 
 import com.google.gson.Gson;
@@ -11,11 +16,31 @@ import com.google.gson.Gson;
 public class TestInMain {
 
 	public static void main(String[] args) throws URISyntaxException {
+		String originalFileName ="testImageFile.jpg";
 		
-		URI uri=new URI("http://data.kma.go.kr/apiData/getData?type=json&dataCd=ASOS&dateCd=DAY&startDt=20100101&endDt=20100102&stnIds=108&schListCnt=10&pageIndex=1&apiKey=qmaIwz9MKYURW4O%2BGRV3V8YTOuBlXnjzb3xwqqlUx2ZFLKhcBx2XhDudC9fNM9Ry");
+		System.out.println(originalFileName
+						.substring(originalFileName.indexOf(".")+1, originalFileName.length()).toUpperCase());
 		
-		System.out.println(uri);
+		System.out.println(FileType.valueOf(originalFileName
+						.substring(originalFileName.indexOf(".")+1, originalFileName.length()).toUpperCase()));
 		
 		
+		System.out.println(new Date());
+		
+		JSONObject jObj=new JSONObject();
+		
+		try {
+			jObj.put("regDate", new Date());
+			
+			System.out.println(jObj.toString());
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		LocalDateTime currentDateTime = LocalDateTime.now();
+		System.out.println(currentDateTime);
 	}
 }

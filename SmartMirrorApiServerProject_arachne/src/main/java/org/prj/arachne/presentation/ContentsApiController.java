@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,9 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.prj.arachne.application.ContentsService;
+import org.prj.arachne.domain.fileinfo.FileInfo;
+import org.prj.arachne.domain.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
+import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.prj.arachne.util.FileUploadUtil;
+import org.prj.arachne.util.MultipartFileStreamingSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
@@ -24,14 +30,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 
 import lombok.extern.log4j.Log4j;
 
@@ -77,41 +86,40 @@ public class ContentsApiController {
 
 	
 	
-	@PostMapping("/{userEmail}/{fileName}")
+	@PostMapping("/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
-															  @PathVariable("fileName")String fileName,
-															 @RequestBody @RequestParam("file")MultipartFile file){
+															  @PathVariable("fileNickName")String fileNickName,
+															 @RequestBody @RequestParam("file")MultipartFile file) throws IOException{
 		
 		ResponseEntity<Map<String, Object>> entity=null;
 		
-		Map<String, Object> values=new HashMap<>();
-		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
 		
-		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
 		
-		log.info("-----------------------------------------------");
+		log.info("--------------Registered Data-------------------");
 		log.info("userEmail : "+userEmail);
-		log.info("fileName : "+fileName);
+		log.info("fileNickName : "+fileNickName);
 		log.info("file contentType : "+ file.getContentType());
 		log.info("file size : "+ file.getSize());
 		log.info("file Name : "+ file.getName());
 		log.info("file originalName : "+ file.getOriginalFilename());
 		log.info("-----------------------------------------------");
+				
 		
-		try {
-			String fileLocation= fileUtil.uploadFile(file.getOriginalFilename(),userEmail ,file.getBytes());
+		FileInfo fileInfo= contentsService.registerContents(fileNickName,userEmail,file.getOriginalFilename(),file.getBytes());
 			
-			
-			log.info("fileLocation : "+ fileLocation);
-			
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		
+		
+		
+		Map<String, Object> values=new HashMap<>();
+		values.put("fileInfo", fileInfo);
+		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
+		
+		
+		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
+		
+	
+		
 		
 		
 		
@@ -121,11 +129,52 @@ public class ContentsApiController {
 	
 	
 	
+	@RequestMapping(value = "/video/{fileName}", method = RequestMethod.GET)
+	  public void getVideo(HttpServletRequest req, HttpServletResponse res, @PathVariable("fileName") String fileName) {
+	    
+	    
+	    // 데이터 조회
+	   // FileModel fileModel = fileService.getFileInfo(Integer.parseInt(id));
+	    
+	    	    
+	    log.info("동영상 스트리밍 요청 : "  + fileName);
+	    
+	    File getFile = new File("C:\\ArachneProject\\testMedia\\" +fileName+".mkv");
+	    
+	    try {
+	      // 미디어 처리
+	      MultipartFileStreamingSender
+	        .fromFile(getFile)
+	        .with(req)
+	        .with(res)
+	        .serveResource();
+	      
+	    } catch (Exception e) {
+	      // 사용자 취소 Exception 은 콘솔 출력 제외
+	      if (!e.getClass().getName().equals("org.apache.catalina.connector.ClientAbortException")) e.printStackTrace();
+	    }
+	  }
 	
 	
 	
-	
-	
+	@DeleteMapping("/{userEmail}/{fileName}")
+	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
+															  @PathVariable("fileName")String fileName){
+		
+		
+		ResponseEntity<Map<String, Object>> entity=null;
+		
+		
+		Map<String, Object> values=new HashMap<>();
+		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
+		
+		
+		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
+		
+		
+		return entity;
+		
+	}
 	
 	
 	

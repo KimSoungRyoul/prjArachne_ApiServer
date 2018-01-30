@@ -1,6 +1,7 @@
 package org.prj.arachne.presentation.exceptionHandler;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,4 +42,20 @@ public class GlobalExceptionHandler {
 		return response;
 	}*/
 
+	
+	//@ExceptionHandler(value=IOException.class)
+	public ResponseEntity<Map<String, Object>> FileByteNullException(){
+		
+		
+		Map<String, Object> response = new HashMap<>();
+
+		response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
+				"file의  내용물[bytes]가 없습니다  Http요청에서 내용물을 검토하세요  IOException"));
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+
+		
+		
+	}
+	
 }

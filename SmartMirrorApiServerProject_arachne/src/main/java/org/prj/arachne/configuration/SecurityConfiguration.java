@@ -51,11 +51,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/oauth/authorize").permitAll()
 				.antMatchers("/403").permitAll()
+				
+				
+				
 					.antMatchers("/user").hasAuthority("NORMAL_USER")
 					.antMatchers("/admin").hasAuthority("ADMIN")
 					.antMatchers("/api/**").hasAuthority("NORMAL_USER")
 					.anyRequest().authenticated()
 
+				
 			.and()
 			
 			.logout();

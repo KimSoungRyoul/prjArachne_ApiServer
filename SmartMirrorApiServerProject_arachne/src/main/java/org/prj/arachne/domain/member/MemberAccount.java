@@ -18,14 +18,15 @@ import javax.persistence.Transient;
 import org.prj.arachne.domain.member.valueObj.Password;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(indexes= {
-		@Index(name="email_index",columnList="email",unique=true)
-})
 @Getter @Setter
+@NoArgsConstructor
 public class MemberAccount implements UserDetails{
 
 	/**
@@ -35,13 +36,12 @@ public class MemberAccount implements UserDetails{
 	private static final long serialVersionUID = -6331748954539978520L;
 	
 	@Id
-	@GeneratedValue
-	private Long memberId;
-	
-	
 	private String email;
 		
+	
+	
 	@Embedded
+	@JsonIgnore
 	private Password password;
 	
 	
@@ -53,6 +53,17 @@ public class MemberAccount implements UserDetails{
 	Set<MemberAuthority> authorities=new HashSet<>();
 		
 	private boolean accountNonLocked;
+	
+	
+	
+	
+	//Hibernate 외래키 연결을 위한 기본키 값만 넣을수 있는 생성자 
+	public MemberAccount(String email) {
+		super();
+		this.email = email;
+	}
+	
+	
 	
 	
 	
@@ -69,30 +80,35 @@ public class MemberAccount implements UserDetails{
 	}
 
 	@Override
+	@JsonIgnore
 	public String getUsername() {
 		// TODO Auto-generated method stub
 		return this.email;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
 		return accountNonLocked;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isCredentialsNonExpired() {
 		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
+	@JsonIgnore
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return true;
@@ -100,8 +116,10 @@ public class MemberAccount implements UserDetails{
 
 	@Override
 	public String toString() {
-		return "MemberAccount [memberId=" + memberId + ", email=" + email + ", password=" + password + ", mInfo="
+		return "MemberAccount [email=" + email + ", password=" + password + ", mInfo="
 				+ mInfo + ", authorities=" + authorities + ", accountNonLocked=" + accountNonLocked + "]";
 	}
+
+
 
 }

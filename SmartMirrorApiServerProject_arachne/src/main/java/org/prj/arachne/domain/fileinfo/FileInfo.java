@@ -2,7 +2,9 @@ package org.prj.arachne.domain.fileinfo;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +19,10 @@ import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonFormatTypes;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,21 +33,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FileInfo {
 
-	@Id
+	/*@Id
 	@GeneratedValue
-	private Long id;
-		
-	@ManyToOne
-	@JoinColumn(name="file_owner")
-	private MemberAccount mAccount;
+	private Long id;*/
 	
-	private String fileLocation;
+	@EmbeddedId
+	private FileInfoId id;
+	
+	
+
 	
 	@Column(unique=true)
-	private String fileName;	
-	
-	
+	private String fileLocation;
+		
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date regDate;
 	
 	@Enumerated(EnumType.STRING)
