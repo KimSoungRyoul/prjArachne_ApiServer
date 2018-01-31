@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -51,9 +52,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 				.antMatchers("/oauth/authorize").permitAll()
 				.antMatchers("/403").permitAll()
+				.antMatchers("/**").permitAll()
 				
 				
-				
+					
 					.antMatchers("/user").hasAuthority("NORMAL_USER")
 					.antMatchers("/admin").hasAuthority("ADMIN")
 					.antMatchers("/api/**").hasAuthority("NORMAL_USER")
@@ -77,6 +79,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
+	
+	@Override
+	  public void configure(WebSecurity web) throws Exception {
+	      //spring security 제외 경로설정 
+		  web.ignoring()
+		  .antMatchers("/static/**")
+		  .antMatchers("/error/**")
+		  .antMatchers("/swagger-ui.html")
+		  .antMatchers("/webjars/**")
+		  .antMatchers("/swagger-resources/**")
+		  .antMatchers("/v2/api-docs");
+	  }
 	
 	
 	

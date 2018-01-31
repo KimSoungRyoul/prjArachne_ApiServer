@@ -1,4 +1,4 @@
-package org.prj.arachne.presentation;
+package org.prj.arachne.presentation.api;
 
 import javax.servlet.http.HttpSession;
 

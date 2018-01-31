@@ -1,4 +1,4 @@
-package org.prj.arachne.domain.fileinfo;
+package org.prj.arachne.domain.fileinfo.valueObj;
 
 import java.io.Serializable;
 
@@ -28,7 +28,7 @@ public class FileInfoId implements Serializable{
 	@Transient
 	private static final long serialVersionUID = -2561055826372706789L;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.REFRESH)
 	@JoinColumn(name="file_owner")
 	private MemberAccount mAccount;
 	

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,9 +13,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
+import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
 import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
@@ -31,14 +35,22 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(
+		name="FileInfo",
+		uniqueConstraints={
+			@UniqueConstraint(
+				columnNames={"file_owner","fileNickName"}
+			)
+		}
+	)
 public class FileInfo {
 
-	/*@Id
+	@Id
 	@GeneratedValue
-	private Long id;*/
+	private Long id;
 	
-	@EmbeddedId
-	private FileInfoId id;
+	@Embedded
+	private FileInfoId fileSerialInfo;
 	
 	
 

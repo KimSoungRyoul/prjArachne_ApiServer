@@ -20,6 +20,17 @@ public class HomeController {
 		return "helloAPIServer";
 	}
 	
+	
+	@GetMapping("/aaa")
+	public String aaaa() {
+		return "NewFile";
+	}
+	
+	
+	
+	
+	
+	
 	@GetMapping("/403")
 	//@ResponseStatus(value=HttpStatus.FORBIDDEN, reason="no Autorized Token!!!")
 	public ResponseEntity<Map<String,Object>> NotAuthroize403(){
@@ -36,4 +47,9 @@ public class HomeController {
 		return new ResponseEntity<Map<String,Object>>(response,HttpStatus.FORBIDDEN);
 		
 	}
+	
+	
+	
+	
+	
 }

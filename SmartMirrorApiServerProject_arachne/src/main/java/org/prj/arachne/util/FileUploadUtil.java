@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
-
+import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
 @Component
@@ -23,6 +23,7 @@ public class FileUploadUtil {
 
 	
 	@Autowired
+	@Getter
 	private String uploadPath;
 	
 	

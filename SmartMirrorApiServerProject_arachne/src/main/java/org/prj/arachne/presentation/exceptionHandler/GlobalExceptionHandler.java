@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.springframework.http.HttpStatus;
@@ -57,5 +58,23 @@ public class GlobalExceptionHandler {
 		
 		
 	}
+	
+	
+ 
+	@ExceptionHandler(value=ArachneNickAndUserEmialDuplicatedException.class)
+	public ResponseEntity<Map<String, Object>> DuplicatedException(){
+		
+		
+		Map<String, Object> response = new HashMap<>();
+
+		response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
+				"같은 userEmail과 file의 NickName 가진 파일이 이미 존재합니다 .."));
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+
+		
+		
+	}
+	
 	
 }

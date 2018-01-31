@@ -1,13 +1,9 @@
-package org.prj.arachne.presentation;
+package org.prj.arachne.presentation.api;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,16 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.prj.arachne.application.ContentsService;
+import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
 import org.prj.arachne.domain.fileinfo.FileInfo;
-import org.prj.arachne.domain.fileinfo.valueObj.FileType;
-import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
-import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
-import org.prj.arachne.util.FileUploadUtil;
 import org.prj.arachne.util.MultipartFileStreamingSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -56,9 +48,6 @@ public class ContentsApiController {
 	private ContentsService contentsService;
 
 	
-	@Autowired
-	private FileUploadUtil fileUtil;
-	
 	@GetMapping("/{userEmail}/{fileName}")
 	public ResponseEntity<InputStreamResource> requireContents(@RequestParam("requesttype") String requestType,
 			@PathVariable("userEmail") String userEmail, @PathVariable("fileName") String fileName) {
@@ -89,12 +78,11 @@ public class ContentsApiController {
 	@PostMapping("/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
 															  @PathVariable("fileNickName")String fileNickName,
-															 @RequestBody @RequestParam("file")MultipartFile file) throws IOException{
+															 @RequestBody @RequestParam("file")MultipartFile file) throws IOException, ArachneNickAndUserEmialDuplicatedException{
 		
 		ResponseEntity<Map<String, Object>> entity=null;
 		
-		
-		
+				
 		log.info("--------------Registered Data-------------------");
 		log.info("userEmail : "+userEmail);
 		log.info("fileNickName : "+fileNickName);
@@ -106,25 +94,44 @@ public class ContentsApiController {
 				
 		
 		FileInfo fileInfo= contentsService.registerContents(fileNickName,userEmail,file.getOriginalFilename(),file.getBytes());
-			
-		
-		
-		
-		
+				
 		Map<String, Object> values=new HashMap<>();
 		values.put("fileInfo", fileInfo);
 		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
-		
-		
+				
 		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
-		
-	
-		
-		
-		
-		
+				
 		return entity; 
 	}
+	
+	
+	
+
+	
+	@DeleteMapping("/{userEmail}/{fileNickName}")
+	public ResponseEntity<Map<String, Object>> removeContents(@PathVariable("userEmail")String userEmail,
+															  @PathVariable("fileNickName")String fileNickName){
+		
+		
+		ResponseEntity<Map<String, Object>> entity=null;
+		
+		
+		contentsService.deleteContents(userEmail, fileNickName);
+		
+		
+		Map<String, Object> values=new HashMap<>();
+		
+		values.put("status", new StatusEntity("Contents Api", ArachneStatus.DELETED, "컨텐츠 삭제에  성공했습니다 "));
+		
+		
+		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.OK);
+		
+		
+		return entity;
+		
+	}
+	
+	
 	
 	
 	
@@ -154,31 +161,6 @@ public class ContentsApiController {
 	      if (!e.getClass().getName().equals("org.apache.catalina.connector.ClientAbortException")) e.printStackTrace();
 	    }
 	  }
-	
-	
-	
-	@DeleteMapping("/{userEmail}/{fileName}")
-	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
-															  @PathVariable("fileName")String fileName){
-		
-		
-		ResponseEntity<Map<String, Object>> entity=null;
-		
-		
-		Map<String, Object> values=new HashMap<>();
-		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
-		
-		
-		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
-		
-		
-		return entity;
-		
-	}
-	
-	
-	
-	
 	
 	
 	
