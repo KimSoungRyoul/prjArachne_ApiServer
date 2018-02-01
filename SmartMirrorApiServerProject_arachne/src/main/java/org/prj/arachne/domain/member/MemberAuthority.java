@@ -17,12 +17,18 @@ import org.prj.arachne.domain.member.valueObj.AuthorityType;
 import org.springframework.security.core.GrantedAuthority;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberAuthority implements GrantedAuthority{
 
 	/**
@@ -36,6 +42,7 @@ public class MemberAuthority implements GrantedAuthority{
 	private Long authorityId;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date grantedDate;
 	
 	@Enumerated(EnumType.STRING)

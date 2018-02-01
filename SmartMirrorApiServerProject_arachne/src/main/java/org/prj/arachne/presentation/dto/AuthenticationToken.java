@@ -10,6 +10,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthenticationToken {
     
+	 private Long memberSerialNum;
      private String userEmail;
      private Collection<MemberAuthority> authorities;
      private String token;

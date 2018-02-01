@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.persistence.Transient;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import lombok.Getter;
 
 @Embeddable
@@ -25,6 +27,17 @@ public class Password implements Serializable{
 	public Password(String value) {
 		this.value = value;
 	}
+
+	
+	
+	public Password encryptValue(PasswordEncoder passwordEncoder) {
+		
+		this.value=passwordEncoder.encode(value);
+		
+		return this;
+	}
+	
+	
 	
 	
 	boolean isMatch(String value) {

@@ -4,8 +4,10 @@ import org.prj.arachne.application.MemberAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,6 +20,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -51,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			
 			.authorizeRequests()
 				.antMatchers("/oauth/authorize").permitAll()
+				.antMatchers(HttpMethod.POST,"/api/v1/members").anonymous() /* 회원가입 */
 				.antMatchers("/403").permitAll()
 				.antMatchers("/**").permitAll()
 				

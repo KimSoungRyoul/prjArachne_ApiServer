@@ -38,7 +38,7 @@ public class HomeController {
 		
 		Map<String, Object> response=new HashMap<>();
 		
-		response.put("status", new StatusEntity("Api", 
+		response.put("status", new StatusEntity("Arachne Api(ResourceServer) 담당자 김성렬", 
 												ArachneStatus.UNAUTHORIZED,
 												"토큰에 해당api 사용권한 권한없음 토큰의 만료, 토큰의 권한 등을 검토하세요 ")
 				);

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.prj.arachne.application.ContentsService;
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
 import org.prj.arachne.domain.fileinfo.FileInfo;
+import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.prj.arachne.util.MultipartFileStreamingSender;
@@ -37,10 +38,11 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.extern.log4j.Log4j;
 
 @RestController
-@RequestMapping(value = "/api/contents")
 @Log4j
-public class ContentsApiController {
+public class ContentsApiController implements Version1ApiMapping{
 
+	
+	
 	@Autowired
 	private String filePathDefault;
 
@@ -48,7 +50,7 @@ public class ContentsApiController {
 	private ContentsService contentsService;
 
 	
-	@GetMapping("/{userEmail}/{fileName}")
+	@GetMapping("/contents/contents/{userEmail}/{fileName}")
 	public ResponseEntity<InputStreamResource> requireContents(@RequestParam("requesttype") String requestType,
 			@PathVariable("userEmail") String userEmail, @PathVariable("fileName") String fileName) {
 
@@ -75,7 +77,7 @@ public class ContentsApiController {
 
 	
 	
-	@PostMapping("/{userEmail}/{fileNickName}")
+	@PostMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
 															  @PathVariable("fileNickName")String fileNickName,
 															 @RequestBody @RequestParam("file")MultipartFile file) throws IOException, ArachneNickAndUserEmialDuplicatedException{
@@ -95,8 +97,11 @@ public class ContentsApiController {
 		
 		FileInfo fileInfo= contentsService.registerContents(fileNickName,userEmail,file.getOriginalFilename(),file.getBytes());
 				
+		
 		Map<String, Object> values=new HashMap<>();
-		values.put("fileInfo", fileInfo);
+		
+		
+		values.put("entity", fileInfo.excludedSecurityInfo());
 		values.put("status", new StatusEntity("Contents Api", ArachneStatus.CREATED, "컨텐츠 전송(저장)에  성공했습니다 "));
 				
 		entity=new ResponseEntity<Map<String,Object>>(values, HttpStatus.CREATED);
@@ -108,7 +113,7 @@ public class ContentsApiController {
 	
 
 	
-	@DeleteMapping("/{userEmail}/{fileNickName}")
+	@DeleteMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> removeContents(@PathVariable("userEmail")String userEmail,
 															  @PathVariable("fileNickName")String fileNickName){
 		
@@ -136,7 +141,7 @@ public class ContentsApiController {
 	
 	
 	
-	@RequestMapping(value = "/video/{fileName}", method = RequestMethod.GET)
+	@RequestMapping(value = "/contents/video/{fileName}", method = RequestMethod.GET)
 	  public void getVideo(HttpServletRequest req, HttpServletResponse res, @PathVariable("fileName") String fileName) {
 	    
 	    

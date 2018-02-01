@@ -70,5 +70,14 @@ public class FileInfo {
 	
 	
 	
+	public FileInfo excludedSecurityInfo() {
+		
+		this.setFileLocation(null);
+		
+		return this;
+	}
+	
+	
+	
 	
 }

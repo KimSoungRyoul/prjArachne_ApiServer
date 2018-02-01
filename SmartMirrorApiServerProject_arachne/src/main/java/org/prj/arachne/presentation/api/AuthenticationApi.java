@@ -51,6 +51,6 @@ public class AuthenticationApi {
 		session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
 				SecurityContextHolder.getContext());
 		MemberAccount memberAccount = memberAuthService.readMemberAccount(userEmail);
-		return new AuthenticationToken(memberAccount.getEmail(), memberAccount.getAuthorities(), session.getId());
+		return new AuthenticationToken(memberAccount.getMemberId(),memberAccount.getEmail(), memberAccount.getAuthorities(), session.getId());
 	}
 }

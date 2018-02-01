@@ -1,10 +1,13 @@
 package org.prj.arachne.domain.member;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Embedded;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,8 +21,11 @@ import javax.persistence.Transient;
 import org.prj.arachne.domain.member.valueObj.Password;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,26 +33,30 @@ import lombok.Setter;
 @Entity
 @Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class MemberAccount implements UserDetails{
 
-	/**
-	 * 
-	 */
+	
 	@Transient
 	private static final long serialVersionUID = -6331748954539978520L;
 	
 	@Id
+	@GeneratedValue
+	private Long memberId;
+	
+	
+	@Column(unique=true)
 	private String email;
 		
-	
+	@JsonFormat(shape=Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
+	private Date joinDate;
 	
 	@Embedded
 	@JsonIgnore
 	private Password password;
 	
 	
-	@OneToOne
-	@JoinColumn(name="m_info_id_fk")
+	@OneToOne(mappedBy="infoOwner")
 	private MemberInfo mInfo;
 	
 	@OneToMany(mappedBy="authOwner")
@@ -57,14 +67,21 @@ public class MemberAccount implements UserDetails{
 	
 	
 	
-	//Hibernate 외래키 연결을 위한 기본키 값만 넣을수 있는 생성자 
+	//Hibernate 외래키 연결할때 필요함 기본키 값만 넣을수 있는 생성자 
 	public MemberAccount(String email) {
 		super();
 		this.email = email;
 	}
 	
 	
-	
+	public MemberAccount excludedOtherEntity() {
+		MemberAccount member= this;
+		member.setAuthorities(null);
+		member.setMInfo(null);
+		
+		
+		return member;
+	}
 	
 	
 	@Override
@@ -77,6 +94,10 @@ public class MemberAccount implements UserDetails{
 	public String getPassword() {
 		// TODO Auto-generated method stub
 		return this.password.getValue();
+	}
+	
+	public Password getPasswordVO() {
+		return this.password;
 	}
 
 	@Override
