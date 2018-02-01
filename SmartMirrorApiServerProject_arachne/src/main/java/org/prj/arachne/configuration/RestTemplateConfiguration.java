@@ -93,7 +93,7 @@ public class RestTemplateConfiguration {
 		return restTemplate;
 
 	}
-
+*/
 	@Bean
 	public MappingJackson2HttpMessageConverter jacksonMessageConverter(ObjectMapper mapper) {
 		MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -106,7 +106,7 @@ public class RestTemplateConfiguration {
 		converter.setSupportedMediaTypes(mediaTypeList);
 		return converter;
 	}
-	*/
+	
 	
 	@Bean
 	@Qualifier("unsafe")

@@ -17,9 +17,7 @@ import org.prj.arachne.presentation.dto.signup.MemberSignUpDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -66,9 +64,9 @@ public class MemberApiController implements Version1ApiMapping{
 				null, 
 				new Password(mDto.getPassword()),
 				new MemberInfo(null, null, 
-						mDto.getMInfo().getName(),
-						mDto.getMInfo().getPhoneNum(),
-						Gender.valueOf(mDto.getMInfo().getGender()), 
+						mDto.getMmInfo().getName(),
+						mDto.getMmInfo().getPhoneNum(),
+						Gender.valueOf(mDto.getMmInfo().getGender()), 
 						new PhysicalInfo(mDto.getPhyInfo().getHeight(),
 										 mDto.getPhyInfo().getWeight(),
 										 PhysicalType.valueOf(mDto.getPhyInfo().getPType())

@@ -8,10 +8,13 @@ public class MemberSignUpDTO {
 
 	
 	private String userEmail;
-	private String password;
-	private MInfo mInfo=new MInfo();
-	private PhyInfo phyInfo=new PhyInfo();
 	
+	private String password;
+	
+	
+	
+	private PhyInfo phyInfo;
+	private MInfo mmInfo;
 	
 	
 	
