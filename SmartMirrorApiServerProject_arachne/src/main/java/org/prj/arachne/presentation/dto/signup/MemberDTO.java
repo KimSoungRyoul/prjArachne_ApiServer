@@ -4,7 +4,7 @@ package org.prj.arachne.presentation.dto.signup;
 import lombok.Data;
 
 @Data
-public class MemberSignUpDTO {
+public class MemberDTO {
 
 	
 	private String userEmail;
@@ -14,7 +14,7 @@ public class MemberSignUpDTO {
 	
 	
 	private PhyInfo phyInfo;
-	private MInfo mmInfo;
+	private MInfo memberInfo;
 	
 	
 	

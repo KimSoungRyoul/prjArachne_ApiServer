@@ -72,6 +72,14 @@ public class MemberAccount implements UserDetails{
 		super();
 		this.email = email;
 	}
+
+	public MemberAccount(Long memberId) {
+		super();
+		this.memberId = memberId;
+	}
+
+
+	
 	
 	
 	public MemberAccount excludedOtherEntity() {
@@ -140,6 +148,8 @@ public class MemberAccount implements UserDetails{
 		return "MemberAccount [email=" + email + ", password=" + password + ", mInfo="
 				+ mInfo + ", authorities=" + authorities + ", accountNonLocked=" + accountNonLocked + "]";
 	}
+
+
 
 
 

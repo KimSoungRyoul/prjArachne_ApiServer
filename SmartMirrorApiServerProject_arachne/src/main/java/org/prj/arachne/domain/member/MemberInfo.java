@@ -1,6 +1,7 @@
 package org.prj.arachne.domain.member;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -10,12 +11,16 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.prj.arachne.domain.member.valueObj.Gender;
 import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,6 +56,8 @@ public class MemberInfo implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private Gender gender;
+	
+	
 	
 	
 	@Embedded

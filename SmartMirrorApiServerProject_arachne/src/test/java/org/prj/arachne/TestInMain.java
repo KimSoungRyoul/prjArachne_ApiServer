@@ -21,7 +21,6 @@ import org.prj.arachne.domain.member.valueObj.Password;
 import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
 import org.prj.arachne.domain.member.valueObj.PhysicalType;
 import org.prj.arachne.presentation.dto.AuthenticationRequest;
-import org.prj.arachne.presentation.dto.signup.MemberSignUpDTO;
 
 import com.google.gson.Gson;
 

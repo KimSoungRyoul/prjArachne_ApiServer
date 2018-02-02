@@ -86,6 +86,7 @@ public class InitService {
 		mAcc.setPassword(new Password(this.passwordEncoder.encode("12345")));
 		mAcc.setAccountNonLocked(true);
 		//mAcc.setMInfo(mInfo);
+		mAcc.setJoinDate(new Date());
 		
 		log.info("init  회원 계정 정보 : "+mAcc.getUsername());
 		
@@ -146,6 +147,7 @@ public class InitService {
 		mAcc.setEmail("rlatjduf510@naver.com");
 		mAcc.setPassword(new Password(this.passwordEncoder.encode("12345")));
 		mAcc.setAccountNonLocked(true);
+		mAcc.setJoinDate(new Date());
 		//mAcc.setMInfo(mInfo);
 		
 		log.info("init  회원 계정 정보 : "+mAcc.toString());
