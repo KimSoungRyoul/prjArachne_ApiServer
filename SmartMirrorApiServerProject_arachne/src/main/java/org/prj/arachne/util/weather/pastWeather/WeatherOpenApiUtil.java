@@ -1,4 +1,4 @@
-package org.prj.arachne.util;
+package org.prj.arachne.util.weather.pastWeather;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

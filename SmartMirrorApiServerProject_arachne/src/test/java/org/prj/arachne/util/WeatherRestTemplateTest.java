@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.prj.arachne.configuration.RestTemplateConfiguration;
 import org.prj.arachne.util.dto.PlaceCode;
 import org.prj.arachne.util.dto.WeatherDTO;
+import org.prj.arachne.util.weather.pastWeather.WeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;

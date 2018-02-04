@@ -1,4 +1,4 @@
-package org.prj.arachne.util;
+package org.prj.arachne.util.file;
 
 import java.util.HashMap;
 import java.util.Map;

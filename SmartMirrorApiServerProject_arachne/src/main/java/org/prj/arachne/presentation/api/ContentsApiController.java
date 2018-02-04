@@ -16,7 +16,7 @@ import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
-import org.prj.arachne.util.MultipartFileStreamingSender;
+import org.prj.arachne.util.file.MultipartFileStreamingSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;

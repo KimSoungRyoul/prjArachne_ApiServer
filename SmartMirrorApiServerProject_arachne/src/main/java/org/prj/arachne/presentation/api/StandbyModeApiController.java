@@ -6,9 +6,9 @@ import java.util.Map;
 
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
-import org.prj.arachne.util.WeatherOpenApiUtil;
 import org.prj.arachne.util.dto.PlaceCode;
 import org.prj.arachne.util.dto.WeatherDTO;
+import org.prj.arachne.util.weather.pastWeather.WeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
