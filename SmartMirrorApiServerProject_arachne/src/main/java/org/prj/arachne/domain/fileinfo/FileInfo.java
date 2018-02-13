@@ -20,6 +20,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
 import org.prj.arachne.domain.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.OwnerType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 
@@ -68,6 +69,8 @@ public class FileInfo {
 	@Enumerated(EnumType.STRING)
 	private SaveStatus saveStatus;
 	
+	@Enumerated
+	private OwnerType ownerType;
 	
 	
 	public FileInfo excludedSecurityInfo() {
