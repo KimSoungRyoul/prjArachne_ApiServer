@@ -13,15 +13,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes= {WeatherOpenApiUtil.class,RestTemplateConfiguration.class})
+//@RunWith(SpringRunner.class)
+//@SpringBootTest(classes= {WeatherOpenApiUtil.class,RestTemplateConfiguration.class})
 public class WeatherRestTemplateTest {
 
 	
-	@Autowired
+	//@Autowired
 	private WeatherOpenApiUtil wApiUtil;
 	
-	@Test
+	//@Test
 	public void testRest() {
 		
 		List<WeatherDTO> dtos=wApiUtil.requestWeather("20180102", "20180103", 108);

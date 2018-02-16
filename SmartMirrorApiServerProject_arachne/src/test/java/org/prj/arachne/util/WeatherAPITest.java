@@ -62,7 +62,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okio.Buffer;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 // @SpringBootTest
 public class WeatherAPITest {
 

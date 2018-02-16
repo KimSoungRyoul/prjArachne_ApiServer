@@ -9,6 +9,7 @@ import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
 import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
 import org.prj.arachne.domain.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.OwnerType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.util.file.FileUploadUtil;
@@ -53,7 +54,7 @@ public class ContentsService {
 		 fileInfo = new FileInfo(null,fileInfoId, fileLocation, new Date(),
 				FileType.valueOf(originalFileName
 						.substring(originalFileName.indexOf(".") + 1, originalFileName.length()).toUpperCase()),
-				SaveStatus.HAS_OWNER);
+				SaveStatus.HAS_OWNER,OwnerType.MEMBEROWN);
 		
 			
 		fileInfoRepo.save(fileInfo);

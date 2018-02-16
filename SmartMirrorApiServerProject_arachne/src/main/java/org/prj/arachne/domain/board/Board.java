@@ -34,6 +34,7 @@ public class Board {
 	@GeneratedValue
 	private Long id;
 	
+	//private Long parentBoardId;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="board_type")
@@ -57,7 +58,7 @@ public class Board {
 	
 	private String contents;
 	
-	@OneToMany(mappedBy="parent_board_id")
+	@OneToMany(mappedBy="parentBoard")
 	private List<Board> replies=new LinkedList<>();
 	
 	@OneToMany

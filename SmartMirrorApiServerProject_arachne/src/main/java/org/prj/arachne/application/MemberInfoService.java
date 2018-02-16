@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.prj.arachne.application.exception.UnSignedMemberException;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberAuthority;
 import org.prj.arachne.domain.member.MemberInfo;

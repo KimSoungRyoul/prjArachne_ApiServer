@@ -1,7 +1,7 @@
 spring:
   profiles:
     active:
-    - dev
+    - product
     
 
 
@@ -44,6 +44,18 @@ spring:
     store-type: redis  
  
  
+  mail:
+    host: smtp.gmail.com 
+    port: 587 
+    protocol: smtp 
+    default-encoding: UTF-8 
+    username: arachne0823@gmail.com 
+    password: "Spring!5367"
+    properties:
+      start-tls-enable: true 
+      auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
  
  
  
@@ -56,15 +68,49 @@ spring:
       
 ---      
   
-spring:
-  profiles: product
+
     
 server:
-  port: 8443
-  ssl:  
-    key-store: classpath:mykeys.jks
-    key-store-password: arachne
-    key-password: arachne
+  port: 8081
+ 
+spring:
+  profiles: product
+  
+  datasource:
+    url: jdbc:mysql://arachnedatabase.cpmqq8pzapbm.ap-northeast-2.rds.amazonaws.com:3306/arachne_db?useSSL=false
+    username: sky5367
+    password: rlatjduf510
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      hibernate.use_sql_comments: true
+  
+  redis:
+    port: 6379 
+    host: www.ksr.pe.kr
+    password: 1234 
+  
+  session:
+    store-type: redis  
+ 
+ 
+  mail:
+    host: smtp.gmail.com 
+    port: 587 
+    protocol: smtp 
+    default-encoding: UTF-8 
+    username: arachne0823@gmail.com 
+    password: "Spring!5367"
+    properties:
+      start-tls-enable: true 
+      auth: true
+      mail.smtp.starttls.enable: true
+      mail.smtp.starttls.required: true
 
 ---
 

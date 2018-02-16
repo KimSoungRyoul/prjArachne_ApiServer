@@ -29,8 +29,8 @@ public class SignUpJsonCreater {
 		pphyInfo.setPType(PhysicalType.SLIM.toString());
 		
 		
-		//dto.setMemberInfo(mmInfo);
-		//dto.setPhyInfo(pphyInfo);
+		dto.setMemberInfo(mmInfo);
+		dto.setPhyInfo(pphyInfo);
 		
 		
 		

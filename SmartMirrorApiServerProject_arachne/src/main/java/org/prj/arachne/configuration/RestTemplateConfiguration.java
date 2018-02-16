@@ -39,8 +39,9 @@ import okhttp3.OkHttpClient;
 public class RestTemplateConfiguration {
 
 	// weatherAPI ssl 무시 안하면 302 리다이렉트 페이로 넘어가버림 
-	@Bean
+	
 	@Qualifier("unsafe")
+	@Bean
 	public RestTemplate getUnSafedRestTemplate() {
 
 		TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;

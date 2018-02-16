@@ -11,6 +11,7 @@ import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
 import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
 import org.prj.arachne.domain.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.OwnerType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberAuthority;
@@ -128,7 +129,7 @@ public class InitService {
 								.toString();
 		
 		FileInfo fInfo=new FileInfo(null,new FileInfoId(mAcc, "stalker")
-										,fileLocation, new Date(), FileType.MP3, SaveStatus.HAS_OWNER);		
+										,fileLocation, new Date(), FileType.MP3, SaveStatus.HAS_OWNER,OwnerType.MEMBEROWN);		
 		
 		fInfoRepository.save(fInfo);
 		

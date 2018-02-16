@@ -1,4 +1,4 @@
-package org.prj.arachne.application;
+package org.prj.arachne.application.exception;
 
 public class UnSignedMemberException extends RuntimeException {
 

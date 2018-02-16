@@ -26,6 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.log4j.Log4j;
 
 @RestController
@@ -35,6 +39,10 @@ public class MemberApiController implements Version1ApiMapping{
 	@Autowired
 	private MemberInfoService mInfoService;
 	
+	 @ApiOperation(value = "회원 정보 조회")
+	    @ApiImplicitParams({
+	            @ApiImplicitParam(name = "memberSerialNum", value = "회원고유번호", required = true, dataType = "Long", paramType = "query", defaultValue = ""),        
+	    })
 	@GetMapping("/members/{memberSerialNum}")
 	public ResponseEntity<Map<String, Object>> GETMemberInfo(@PathVariable("memberSerialNum")Long memberSerialNum) {
 		
@@ -56,8 +64,15 @@ public class MemberApiController implements Version1ApiMapping{
 		return entity;
 	}
 	
+	 @ApiOperation(value = "회원 가입")
+	    @ApiImplicitParams({
+	           
+	    })
 	@PostMapping("/members")
-	public ResponseEntity<Map<String, Object>> signUpMember(@RequestBody MemberDTO mDto ){
+	public ResponseEntity<Map<String, Object>> signUpMember(
+			@ApiParam(name = "회원가입 정보", 
+						value = "회원 가입에 필요한 데이터들\n id,password 를 포함한 개인정보들", required = true)
+			@RequestBody MemberDTO mDto ){
 				
 		ResponseEntity<Map<String, Object>> entity=null;
 		
