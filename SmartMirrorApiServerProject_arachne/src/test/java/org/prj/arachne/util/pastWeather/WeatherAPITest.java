@@ -1,4 +1,4 @@
-package org.prj.arachne.util;
+package org.prj.arachne.util.pastWeather;
 
 import java.io.BufferedReader;
 import java.io.IOException;
