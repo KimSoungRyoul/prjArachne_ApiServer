@@ -13,8 +13,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.prj.arachne.domain.weather.FcsPiece;
 import org.prj.arachne.domain.weather.WeatherForecast;
+import org.prj.arachne.domain.weather.valueObj.FcsText;
+import org.prj.arachne.domain.weather.valueObj.FcstDaily;
 import org.prj.arachne.domain.weather.valueObj.Grid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +27,9 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.val;
 import lombok.extern.log4j.Log4j;
+import springfox.documentation.spring.web.json.Json;
 
 @Component
 @Log4j
@@ -35,6 +40,7 @@ public class SKTWeatherOpenApiUtil {
 
 	private static final String appKey = "3a1a26a7-4b40-4b1d-a611-22b12de3c29f";
 
+	@Qualifier("weather")
 	private RestTemplate restTemplate;
 
 	@Autowired
@@ -72,8 +78,7 @@ public class SKTWeatherOpenApiUtil {
 			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity,
 					String.class);
 
-			System.out.println("------------------------");
-			System.out.println();
+			
 
 			JSONObject rootJsonObj = new JSONObject(responseEntity.getBody().toString());
 
@@ -85,43 +90,26 @@ public class SKTWeatherOpenApiUtil {
 
 			rootJsonObj = jArr.getJSONObject(0);
 
-			JSONObject gridJsonObj = rootJsonObj.getJSONObject("grid");
 			
-			Grid grid=this.gridParser(gridJsonObj);
+			
+			Grid grid=this.gridParser(rootJsonObj.getJSONObject("grid"));
 			
 			Date timeRelease= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rootJsonObj.getString("timeRelease"));
 			
 			
-			JSONObject fcst3hourJsonObj= rootJsonObj.getJSONObject("fcst3hour");
-			JSONObject fcst6hourJsonObj= rootJsonObj.getJSONObject("fcst6hour");
 			
+			FcsText fctText=this.fcsTestParser(rootJsonObj.getJSONObject("fcstext"));
+			FcsText fctTextRegion=this.fcsTestParser(rootJsonObj.getJSONObject("fcstextRegion"));
 			
+			List<FcsText> fctList=new LinkedList<>();
+			fctList.add(fctText);
+			fctList.add(fctTextRegion);
+						
+			List<FcsPiece> fpList=this.fcst3And6hourJsonObjParser(rootJsonObj.getJSONObject("fcst3hour"), 
+																		rootJsonObj.getJSONObject("fcst6hour"));
 			
-			FcsPiece fp=new FcsPiece();
-			List<FcsPiece> fpList=new LinkedList<>();
-			
-			
-			
-			for(int xhourLater=4;xhourLater<=25;xhourLater=xhourLater+3) {
-				fp=new FcsPiece();
-				fp.setAfterHour(xhourLater);
-				
-				fp.setWindSpeed(fcst3hourJsonObj.getJSONObject("wind").getDouble("wspd"+xhourLater+"hour"));
-				fp.setWindDirection(fcst3hourJsonObj.getJSONObject("wind").getDouble("wdir"+xhourLater+"hour"));
-								
-				fp.setSkyStatus(fcst3hourJsonObj.getJSONObject("sky").getString("name"+xhourLater+"hour"));
-				
-				fp.setTemperature(fcst3hourJsonObj.getJSONObject("temperature").getDouble("temp"+xhourLater+"hour"));
-				
-				fp.setHumidity(fcst3hourJsonObj.getJSONObject("humidity").getDouble("rh"+xhourLater+"hour"));
-				
-				fp.setRainPer(fcst6hourJsonObj.getString("rain"+(xhourLater-1)*2+"hour"));
-				fp.setSnowPer(fcst6hourJsonObj.getString("snow"+(xhourLater-1)*2+"hour"));
-				
-				fpList.add(fp);
-			}
-			
-			
+			FcstDaily fcstDaily=this.fcstDailyParser(rootJsonObj.getJSONObject("fcstdaily"));
+		
 			
 			/*System.out.println("----------------------------------------");
 			System.out.println(grid.toString());
@@ -133,8 +121,8 @@ public class SKTWeatherOpenApiUtil {
 			weatherEntity.setPieceList(fpList);
 			weatherEntity.setGrid(grid);
 			weatherEntity.setReleaseTime(timeRelease);
-			
-			
+			weatherEntity.setFcstextPair(fctList);
+			weatherEntity.setDayMinMax(fcstDaily);
 			
 			
 		} catch (JSONException e) {
@@ -157,6 +145,29 @@ public class SKTWeatherOpenApiUtil {
 	
 	
 	
+	private FcstDaily fcstDailyParser(JSONObject valueObjJsonObj) {
+		// TODO Auto-generated method stub
+		
+		try {
+			return new FcstDaily(
+									valueObjJsonObj.getDouble("tmax1day"), 
+									valueObjJsonObj.getDouble("tmax2day"),
+									valueObjJsonObj.getDouble("tmax3day") ,
+									valueObjJsonObj.getDouble("tmin1day"),
+									valueObjJsonObj.getDouble("tmin2day"),
+									valueObjJsonObj.getDouble("tmin3day")
+									);
+		
+	} catch (JSONException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		log.error("-----------gridParser에 문제가 있습니다---------", e);
+
+	}
+		
+		return null;
+	}
+
 	private Grid gridParser(JSONObject valueObjJsonObj) {
 
 		try {
@@ -173,4 +184,65 @@ public class SKTWeatherOpenApiUtil {
 
 
 	}
+	
+	
+	private FcsText fcsTestParser(JSONObject valueObjJsonObj) {
+		
+		try {
+			
+			
+			return new FcsText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(valueObjJsonObj.getString("timeRelease")),
+					valueObjJsonObj.getString("locationName"),
+					valueObjJsonObj.getString("text1"));
+			
+		} catch (ParseException | JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("fcsTestParser에 문제가 있습니다 -------------------",e);
+		}
+		
+		
+		return null;
+	}
+	
+	private List<FcsPiece> fcst3And6hourJsonObjParser(JSONObject fcst3hourJsonObj, JSONObject fcst6hourJsonObj) {
+
+		
+			FcsPiece fp = new FcsPiece();
+
+			List<FcsPiece> fpList = new LinkedList<>();
+		try {
+			for (int xhourLater = 4; xhourLater <= 25; xhourLater = xhourLater + 3) {
+
+				fp.setAfterHour(xhourLater);
+
+				fp.setWindSpeed(fcst3hourJsonObj.getJSONObject("wind").getDouble("wspd" + xhourLater + "hour"));
+				fp.setWindDirection(fcst3hourJsonObj.getJSONObject("wind").getDouble("wdir" + xhourLater + "hour"));
+
+				fp.setSkyStatus(fcst3hourJsonObj.getJSONObject("sky").getString("name" + xhourLater + "hour"));
+
+				fp.setTemperature(
+						fcst3hourJsonObj.getJSONObject("temperature").getDouble("temp" + xhourLater + "hour"));
+
+				fp.setHumidity(fcst3hourJsonObj.getJSONObject("humidity").getDouble("rh" + xhourLater + "hour"));
+
+				fp.setRainPer(fcst6hourJsonObj.getString("rain" + (xhourLater - 1) * 2 + "hour"));
+				fp.setSnowPer(fcst6hourJsonObj.getString("snow" + (xhourLater - 1) * 2 + "hour"));
+
+				fpList.add(fp);
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("---------fcst3And6hourJsonObjParser 파싱 오류 입니다 ------------------", e);
+		}
+		
+		
+		
+		
+		
+		return fpList;
+	}
+	
 }

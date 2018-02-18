@@ -39,12 +39,11 @@ public class WeatherForecast {
 	private Grid grid;
 	
 	//전국 예보
-	@Embedded
-	private FcsText fcstext;
+	@OneToMany
+	@JoinColumn(name="wf_id")
+	private List<FcsText> fcstextPair;
 	
-	// 지역예보
-	@Embedded
-	private FcsTextRegion fcstextRegion;
+	
 	
 	@OneToMany
 	@JoinColumn(name="parent_fcs_id")
