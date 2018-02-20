@@ -1,7 +1,5 @@
 package org.prj.arachne.domain.weather.valueObj;
 
-import java.util.Date;
-
 import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;

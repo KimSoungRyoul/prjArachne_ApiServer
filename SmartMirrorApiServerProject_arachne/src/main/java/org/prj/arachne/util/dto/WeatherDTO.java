@@ -1,10 +1,11 @@
 package org.prj.arachne.util.dto;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.ToString;
 
+
+@Deprecated
 @Builder
 @Getter
 @ToString

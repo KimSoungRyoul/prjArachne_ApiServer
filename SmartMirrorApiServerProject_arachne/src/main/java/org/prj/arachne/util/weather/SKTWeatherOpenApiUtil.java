@@ -12,8 +12,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.prj.arachne.domain.weather.FcsPiece;
+import org.prj.arachne.domain.weather.FcsText;
 import org.prj.arachne.domain.weather.WeatherForecast;
-import org.prj.arachne.domain.weather.valueObj.FcsText;
 import org.prj.arachne.domain.weather.valueObj.FcstDaily;
 import org.prj.arachne.domain.weather.valueObj.Grid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import lombok.val;
 import lombok.extern.log4j.Log4j;
-import springfox.documentation.spring.web.json.Json;
 
 @Component
 @Log4j
@@ -118,7 +116,7 @@ public class SKTWeatherOpenApiUtil {
 			System.out.println("----------------------------------------");*/
 			
 			weatherEntity=new WeatherForecast();
-			weatherEntity.setPieceList(fpList);
+			weatherEntity.setFcsPieceList(fpList);
 			weatherEntity.setGrid(grid);
 			weatherEntity.setReleaseTime(timeRelease);
 			weatherEntity.setFcstextPair(fctList);
@@ -191,7 +189,7 @@ public class SKTWeatherOpenApiUtil {
 		try {
 			
 			
-			return new FcsText(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(valueObjJsonObj.getString("timeRelease")),
+			return new FcsText(null,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(valueObjJsonObj.getString("timeRelease")),
 					valueObjJsonObj.getString("locationName"),
 					valueObjJsonObj.getString("text1"));
 			

@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.prj.arachne.application.OpenApiService;
+import org.prj.arachne.domain.weather.WeatherForecast;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.prj.arachne.util.dto.PlaceCode;
 import org.prj.arachne.util.dto.WeatherDTO;
+import org.prj.arachne.util.weather.SKTWeatherOpenApiUtil;
 import org.prj.arachne.util.weather.pastWeather.WeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,14 +21,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/api/standbymode")
 public class StandbyModeApiController {
 
-	@Autowired
 	private WeatherOpenApiUtil wApi;
 	
+	private OpenApiService oaService;
 	
+
+	@Autowired
+	public StandbyModeApiController(WeatherOpenApiUtil wApi, OpenApiService oaService) {
+		this.wApi = wApi;
+		this.oaService = oaService;
+	}
+
+
+
+	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="city",value="도,시 빼고 입력하기 ex)서울시(x),서울(o),경기(o) 이거는 틀리면 아예 데이터 안줌"),
+		@ApiImplicitParam(name="county",value="ex)중랑구,시흥시"),
+		@ApiImplicitParam(name="village",value="ex) 정왕동, 상봉1동,vilage는 정확하지 않아도 어느정도 api내부에서 좌표 수정합니다.")
+	})
+	@GetMapping("/weather/{city}/{county}/{village}")
+	public ResponseEntity<Map<String, Object>> sktWeather(@PathVariable String city,
+				@PathVariable String county, @PathVariable String village){
+		
+			ResponseEntity<Map<String, Object>> entity=null;
+		
+			
+		 	Map<String, Object> values=new HashMap<>();
+	 	
+		 	WeatherForecast wf=oaService.requestwForecast(city, county, village);
+		 	
+		 	StatusEntity status=new StatusEntity();
+		 	status.setApiType("SKT 기상관측자료 OpenApi");
+		 	status.setMessage("SUCCSS");
+		 	status.setStatusCode(ArachneStatus.SUCCESS);
+		 	
+		 	
+		 	
+		 	values.put("status", status);
+		 	values.put("entity", wf);
+		 	
+		 	
+		 	
+		 	entity=new ResponseEntity<>(values,HttpStatus.OK);
+		
+	
+		
+		
+		
+		
+		return entity;
+	}
+
+	
+	@ApiOperation(value="기상청 OpenApi 활용한 '과거'날씨 정보들 ")
 	@GetMapping("/weather/{placeName}")
 	public ResponseEntity<Map<String, Object>> weather(@PathVariable("placeName") String place
 														,@RequestParam("startDt") String startDt

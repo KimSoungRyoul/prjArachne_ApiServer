@@ -102,11 +102,10 @@
 
 
 		<!-- https://mvnrepository.com/artifact/org.json/json -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-		</dependency> -->
-		
+		</dependency> 
 		
 		 <!-- XML -->
         <dependency>
