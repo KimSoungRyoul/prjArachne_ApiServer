@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FcstDaily {
 
-	private double todayMaxTem;
-	private double tomorrowMaxTem;
-	private double dayAfterTomorrowMaxTem;
+	private String todayMaxTem;
+	private String tomorrowMaxTem;
+	private String dayAfterTomorrowMaxTem;
 	
-	private double todayMinTem;
-	private double tomorrowMinTem;
-	private double dayAfterTomorrowMinTem;
+	private String todayMinTem;
+	private String tomorrowMinTem;
+	private String dayAfterTomorrowMinTem;
 	
 	
 	

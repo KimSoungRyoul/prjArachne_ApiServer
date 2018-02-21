@@ -71,18 +71,15 @@ public class SKTWeatherOpenApiUtil {
 
 			HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
 
-			System.out.println(uri);
+			log.info("weatherApi uri: "+ uri);
 
-			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity,
-					String.class);
+			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
 
 			
 
 			JSONObject rootJsonObj = new JSONObject(responseEntity.getBody().toString());
 
-			System.out.println(rootJsonObj);
-
-			System.out.println(rootJsonObj.getJSONObject("weather").getJSONArray("forecast3days"));
+		
 
 			JSONArray jArr = rootJsonObj.getJSONObject("weather").getJSONArray("forecast3days");
 
@@ -106,7 +103,7 @@ public class SKTWeatherOpenApiUtil {
 			List<FcsPiece> fpList=this.fcst3And6hourJsonObjParser(rootJsonObj.getJSONObject("fcst3hour"), 
 																		rootJsonObj.getJSONObject("fcst6hour"));
 			
-			FcstDaily fcstDaily=this.fcstDailyParser(rootJsonObj.getJSONObject("fcstdaily"));
+			FcstDaily fcstDaily=this.fcstDailyParser(rootJsonObj.getJSONObject("fcstdaily").getJSONObject("temperature"));
 		
 			
 			/*System.out.println("----------------------------------------");
@@ -150,12 +147,12 @@ public class SKTWeatherOpenApiUtil {
 			
 			
 			return new FcstDaily(
-									valueObjJsonObj.getDouble("tmax1day"), 
-									valueObjJsonObj.getDouble("tmax2day"),
-									valueObjJsonObj.getDouble("tmax3day") ,
-									valueObjJsonObj.getDouble("tmin1day"),
-									valueObjJsonObj.getDouble("tmin2day"),
-									valueObjJsonObj.getDouble("tmin3day")
+									valueObjJsonObj.getString("tmax1day"), 
+									valueObjJsonObj.getString("tmax2day"),
+									valueObjJsonObj.getString("tmax3day") ,
+									valueObjJsonObj.getString("tmin2day"),
+									valueObjJsonObj.getString("tmin2day"),
+									valueObjJsonObj.getString("tmin3day")
 									);
 		
 	} catch (JSONException e) {
