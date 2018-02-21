@@ -6,28 +6,30 @@ import java.util.Map;
 
 import org.prj.arachne.application.OpenApiService;
 import org.prj.arachne.domain.weather.WeatherForecast;
+import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
-import org.prj.arachne.util.dto.PlaceCode;
 import org.prj.arachne.util.dto.WeatherDTO;
-import org.prj.arachne.util.weather.SKTWeatherOpenApiUtil;
 import org.prj.arachne.util.weather.pastWeather.WeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j;
 
+
+@Api(value="날씨 API",description="날씨관련 Api입니다(기상청+ SKTOpenApi사용)")
 @RestController
-@RequestMapping("/api/standbymode")
-public class StandbyModeApiController {
+@Log4j
+public class StandbyModeApiController implements Version1ApiMapping{
 
 	private WeatherOpenApiUtil wApi;
 	
@@ -40,17 +42,20 @@ public class StandbyModeApiController {
 		this.oaService = oaService;
 	}
 
+	
+	
 
-
-	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보")
+	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다",response=WeatherForecast.class,produces="application/json")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="city",value="도,시 빼고 입력하기 ex)서울시(x),서울(o),경기(o) 이거는 틀리면 아예 데이터 안줌"),
-		@ApiImplicitParam(name="county",value="ex)중랑구,시흥시"),
-		@ApiImplicitParam(name="village",value="ex) 정왕동, 상봉1동,vilage는 정확하지 않아도 어느정도 api내부에서 좌표 수정합니다.")
+		@ApiImplicitParam(name="city",value="도,시 빼고 입력하기 ex)서울시(x),서울(o),경기(o) 이거는 틀리면 아예 데이터 안줌",paramType="path"),
+		@ApiImplicitParam(name="county",value="ex)중랑구,시흥시",paramType="path"),
+		@ApiImplicitParam(name="village",value="ex) 정왕동, 상봉1동,vilage는 정확하지 않아도 어느정도 api내부에서 좌표 수정합니다.",paramType="path")
 	})
 	@GetMapping("/weather/{city}/{county}/{village}")
-	public ResponseEntity<Map<String, Object>> sktWeather(@PathVariable String city,
-				@PathVariable String county, @PathVariable String village){
+	public ResponseEntity<Map<String, Object>> sktWeather(@PathVariable("city") String city,
+				@PathVariable("county") String county, @PathVariable("village") String village){
+		
+		log.info("city:"+city+ "]]  county: "+county+"]] village: "+village);
 		
 			ResponseEntity<Map<String, Object>> entity=null;
 		

@@ -68,7 +68,7 @@ public class InitService {
 
 
 
-	@PostConstruct
+	//@PostConstruct
 	public void init() {
 		
 		createUser1();

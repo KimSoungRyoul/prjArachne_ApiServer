@@ -26,12 +26,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.Example;
 import lombok.extern.log4j.Log4j;
 
+@Api(value="회원정보 조회Api",description="회원 정보 관련 Api")
 @RestController
 @Log4j
 public class MemberApiController implements Version1ApiMapping{
@@ -39,9 +42,14 @@ public class MemberApiController implements Version1ApiMapping{
 	@Autowired
 	private MemberInfoService mInfoService;
 	
-	 @ApiOperation(value = "회원 정보 조회")
+	
+	
+	
+	
+	
+	 @ApiOperation(value = "회원 정보 조회",response=MemberInfo.class,produces="application/json")
 	    @ApiImplicitParams({
-	            @ApiImplicitParam(name = "memberSerialNum", value = "회원고유번호", required = true, dataType = "Long", paramType = "query", defaultValue = ""),        
+	            @ApiImplicitParam(name = "memberSerialNum", value = "회원고유번호", required = true, paramType="path", dataType = "Long", defaultValue = ""),        
 	    })
 	@GetMapping("/members/{memberSerialNum}")
 	public ResponseEntity<Map<String, Object>> GETMemberInfo(@PathVariable("memberSerialNum")Long memberSerialNum) {
@@ -50,8 +58,7 @@ public class MemberApiController implements Version1ApiMapping{
 		
 		ResponseEntity<Map<String, Object>> entity=null;
 		
-		
-		
+				
 		MemberInfo mInfo= mInfoService.requestMemberInfo(memberSerialNum);
 				
 		
@@ -64,7 +71,7 @@ public class MemberApiController implements Version1ApiMapping{
 		return entity;
 	}
 	
-	 @ApiOperation(value = "회원 가입")
+	 @ApiOperation(value = "회원 가입",response=StatusEntity.class,produces="application/json")
 	    @ApiImplicitParams({
 	           
 	    })
@@ -108,6 +115,19 @@ public class MemberApiController implements Version1ApiMapping{
 		return entity;			
 	}
 	
+	 @ApiOperation(value="회원정보 수정",response=StatusEntity.class,produces="application/json")
+	 @ApiImplicitParams({
+		 @ApiImplicitParam(name="memberSerialNum",required=true,dataType="Long",paramType="path",value="회원 고유 식별 번호 입니다,이메일 아니에요 ,\r\n 인증서버에서 로그인시 넘어오는 시리얼 번호입니다"),
+		 @ApiImplicitParam(name="infoType",
+		 						value="accountInfo,memberInfo 두가지 값이 존재합니다 다른 타입은 현재 없습니다",
+		 						required=true,dataType="String",paramType="query",example="accountInfo"),
+		 @ApiImplicitParam(name="memberDto",dataType="MemberDTO",
+		 						value="body로 들어오는수정되야하는 회원 정보입니다 \r\n 넘길때 변경되지 않는내용도 같이 넘겨주셔야합니다 \r\n 주의: Gender는 MAN WOMAN만 있고 ptype은 SLIM ,FAT만 존재합니다",
+		 						 example="memberDto"
+				 )
+		 
+	 }
+	)			 
 	@PutMapping("/members/{memberSerialNum}")
 	public ResponseEntity<Map<String, Object>> modifiedMemberInfo(@PathVariable("memberSerialNum") Long memberId,
 																  @RequestParam("infoType")String infoType,

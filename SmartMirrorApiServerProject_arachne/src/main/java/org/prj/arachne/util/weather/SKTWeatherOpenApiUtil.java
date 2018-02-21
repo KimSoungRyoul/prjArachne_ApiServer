@@ -147,6 +147,8 @@ public class SKTWeatherOpenApiUtil {
 		// TODO Auto-generated method stub
 		
 		try {
+			
+			
 			return new FcstDaily(
 									valueObjJsonObj.getDouble("tmax1day"), 
 									valueObjJsonObj.getDouble("tmax2day"),
@@ -158,8 +160,8 @@ public class SKTWeatherOpenApiUtil {
 		
 	} catch (JSONException e) {
 		// TODO Auto-generated catch block
-		e.printStackTrace();
-		log.error("-----------gridParser에 문제가 있습니다---------", e);
+		//e.printStackTrace();
+		log.error("-----------fcstDailyParser에 문제가 있습니다---------", e);
 
 	}
 		

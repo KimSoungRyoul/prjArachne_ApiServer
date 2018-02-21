@@ -34,9 +34,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.log4j.Log4j;
 
+@Api(description="컨텐츠(파일) 관련 Api입니다")
 @RestController
 @Log4j
 public class ContentsApiController implements Version1ApiMapping{
@@ -49,8 +54,16 @@ public class ContentsApiController implements Version1ApiMapping{
 	@Autowired
 	private ContentsService contentsService;
 
-	
-	@GetMapping("/contents/contents/{userEmail}/{fileName}")
+	@ApiOperation(value="컨텐츠를 불러옵니다")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="requesttype",dataType="String",
+								value="download 또는 streaming 값중 하나 넣으시면 됩니다 ",paramType="query"),
+		@ApiImplicitParam(name="fileName",dataType="String",
+								value="회원이 저장한 파일의 닉네임을 말합니다",paramType="path"),
+		@ApiImplicitParam(name="userEmail",dataType="String",
+								value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",paramType="path")
+	})
+	@GetMapping("/contents/{userEmail}/{fileName}")
 	public ResponseEntity<InputStreamResource> requireContents(@RequestParam("requesttype") String requestType,
 			@PathVariable("userEmail") String userEmail, @PathVariable("fileName") String fileName) {
 
@@ -76,11 +89,20 @@ public class ContentsApiController implements Version1ApiMapping{
 	}
 
 	
-	
+	@ApiOperation(value="컨텐츠를 fileServer에 저장합니다")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="fileNickName",dataType="String",
+				value="클라이언트에서 파일 닉네임 정해주세요, 회원이 소유한파일들중에서는 이름이 고유해야합니다"
+				,paramType="path"),
+		@ApiImplicitParam(name="userEmail",dataType="String",
+				value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",
+				paramType="path")
+	})
 	@PostMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
 															  @PathVariable("fileNickName")String fileNickName,
-															 @RequestBody @RequestParam("file")MultipartFile file) throws IOException, ArachneNickAndUserEmialDuplicatedException{
+															  @ApiParam(name="file",value="파일 입니다 jpg,gif,avi,hwp등 다 가능합니다")
+																@RequestBody @RequestParam("file")MultipartFile file) throws IOException, ArachneNickAndUserEmialDuplicatedException{
 		
 		ResponseEntity<Map<String, Object>> entity=null;
 		
@@ -112,7 +134,11 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 
-	
+	@ApiOperation(value="컨텐츠를 삭제합니다")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="fileNickName",dataType="String",value="회원이 소유한파일들중에서는 이름이 고유합니다",paramType="path"),
+		@ApiImplicitParam(name="userEmail",dataType="String",value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",paramType="path")
+	})
 	@DeleteMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> removeContents(@PathVariable("userEmail")String userEmail,
 															  @PathVariable("fileNickName")String fileNickName){
@@ -139,8 +165,10 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 	
-	
-	
+	@ApiOperation(value="영상 스트리밍을 위한 요청입니다 아마 이번 프로젝트에서는 안쓰일것 같기는 하네요")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="fileName",dataType="String",value="회원이 소유한파일들중에서는 고유한 이름입니다",paramType="path")
+	})
 	@RequestMapping(value = "/contents/video/{fileName}", method = RequestMethod.GET)
 	  public void getVideo(HttpServletRequest req, HttpServletResponse res, @PathVariable("fileName") String fileName) {
 	    
