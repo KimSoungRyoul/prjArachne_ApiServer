@@ -7,4 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class DocumentController {
 
 	
+	@GetMapping("/test/mail")
+	public String mailHtml() {
+		
+		
+		return "mailform";
+		
+	}
+	
 }

@@ -54,13 +54,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			
 			.authorizeRequests()
 				.antMatchers("/oauth/authorize").permitAll()
+				.antMatchers("/test/**").permitAll()
 				.antMatchers(HttpMethod.POST,"/api/v1/members").anonymous() /* 회원가입 */
 				.antMatchers("/403").permitAll()
-				.antMatchers("/**").permitAll()
+				
 				
 				
 					
-					.antMatchers("/user").hasAuthority("NORMAL_USER")
+					.antMatchers("/user").permitAll()
 					.antMatchers("/admin").hasAuthority("ADMIN")
 					.antMatchers("/api/**").hasAuthority("NORMAL_USER")
 					.anyRequest().authenticated()

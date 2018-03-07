@@ -2,10 +2,10 @@ package org.prj.arachne.domain.weather;
 
 import java.util.Date;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +23,8 @@ public class FcsText {
 	
 	private Date timeRelease;
 	private String locationName;
+	
+	@Lob
 	private String text;
 	
 

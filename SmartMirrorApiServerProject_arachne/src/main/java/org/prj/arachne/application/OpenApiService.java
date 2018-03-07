@@ -1,11 +1,15 @@
 package org.prj.arachne.application;
 
+import javax.transaction.Transactional;
+
+import org.prj.arachne.domain.weather.FcsPiece;
 import org.prj.arachne.domain.weather.WeatherForecast;
+import org.prj.arachne.domain.weather.repository.FcsTextRepository;
+import org.prj.arachne.domain.weather.repository.FscPieceRepository;
 import org.prj.arachne.domain.weather.repository.WeatherForecastRepositroy;
 import org.prj.arachne.util.weather.SKTWeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OpenApiService {
@@ -16,9 +20,21 @@ public class OpenApiService {
 	@Autowired
 	private WeatherForecastRepositroy wfRepo;
 	
+	@Autowired
+	private FscPieceRepository fpRepo;
+	
+	@Autowired
+	private FcsTextRepository ftRepo;
+	
+	
+	@Transactional
 	public WeatherForecast requestwForecast(String city,String county,String village) {
 		
-		WeatherForecast wf=sktwApi.requestWeatherForecast(city, county, village);
+		WeatherForecast wf;
+		
+		wf=wfRepo.findTop1ByGridCityAndGridCountryAndGridVillageOrderByReleaseTime(city, county, village);		
+		
+		//WeatherForecast wf=sktwApi.requestWeatherForecast(city, county, village);
 		
 		return wf;
 	}
@@ -27,7 +43,11 @@ public class OpenApiService {
 	@Transactional
 	public void registerWeatherForcaset(WeatherForecast wf) {
 		
-		wfRepo.save(wf);
+			fpRepo.save(wf.getFcsPieceList());
+			ftRepo.save(wf.getFcstextPair());
+			
+			
+			wfRepo.save(wf);
 		
 		
 	}

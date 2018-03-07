@@ -3,17 +3,28 @@ package org.prj.arachne.domain.weather;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.prj.arachne.domain.weather.valueObj.FcstDaily;
 import org.prj.arachne.domain.weather.valueObj.Grid;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.Data;
 
@@ -26,6 +37,7 @@ public class WeatherForecast {
 	private Long id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(shape=Shape.STRING,pattern="yyyy-MM-dd HH:mm:ss",timezone="Asia/Seoul")
 	private Date releaseTime;
 	
 	//기상예보 위치

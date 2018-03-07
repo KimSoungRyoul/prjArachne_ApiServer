@@ -1,7 +1,7 @@
 spring:
   profiles:
     active:
-    - product
+    - dev
     
 
 
@@ -25,16 +25,22 @@ spring:
     url: jdbc:mysql://localhost:3306/arachne_db?useSSL=false
     username: ksr_arachne_dev
     password: arachne_password
+    
   jpa:
     database: mysql
     hibernate:
       ddl-auto: create
+      
     generate-ddl: true
     show-sql: true
     properties:
       hibernate.format_sql: true
       hibernate.use_sql_comments: true
-  
+      hibernate.connection.CharSet: utf8
+      hibernate.connection.characterEncoding: utf8
+      hibernate.connection.useUnicode: true
+      
+      
   redis:
     port: 6379 
     host: localhost

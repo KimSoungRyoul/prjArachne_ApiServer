@@ -87,7 +87,7 @@ public class SKTWeatherOpenApiUtil {
 
 			
 			
-			Grid grid=this.gridParser(rootJsonObj.getJSONObject("grid"));
+			Grid grid=this.gridParser(rootJsonObj.getJSONObject("grid"), village, city, county);
 			
 			Date timeRelease= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rootJsonObj.getString("timeRelease"));
 			
@@ -106,11 +106,7 @@ public class SKTWeatherOpenApiUtil {
 			FcstDaily fcstDaily=this.fcstDailyParser(rootJsonObj.getJSONObject("fcstdaily").getJSONObject("temperature"));
 		
 			
-			/*System.out.println("----------------------------------------");
-			System.out.println(grid.toString());
-			System.out.println(timeRelease.toString());
-			System.out.println(fpList.toString());
-			System.out.println("----------------------------------------");*/
+			
 			
 			weatherEntity=new WeatherForecast();
 			weatherEntity.setFcsPieceList(fpList);
@@ -165,11 +161,11 @@ public class SKTWeatherOpenApiUtil {
 		return null;
 	}
 
-	private Grid gridParser(JSONObject valueObjJsonObj) {
+	private Grid gridParser(JSONObject valueObjJsonObj,String village,String city,String county) {
 
 		try {
-			return new Grid(valueObjJsonObj.getString("village"), valueObjJsonObj.getString("city"),
-					valueObjJsonObj.getString("county"), valueObjJsonObj.getDouble("latitude"),
+			return new Grid(village, city, county,
+					valueObjJsonObj.getDouble("latitude"),
 					valueObjJsonObj.getDouble("longitude"));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -205,12 +201,12 @@ public class SKTWeatherOpenApiUtil {
 	private List<FcsPiece> fcst3And6hourJsonObjParser(JSONObject fcst3hourJsonObj, JSONObject fcst6hourJsonObj) {
 
 		
-			FcsPiece fp = new FcsPiece();
+			FcsPiece fp ;
 
 			List<FcsPiece> fpList = new LinkedList<>();
 		try {
 			for (int xhourLater = 4; xhourLater <= 25; xhourLater = xhourLater + 3) {
-
+				fp = new FcsPiece();
 				fp.setAfterHour(xhourLater);
 
 				fp.setWindSpeed(fcst3hourJsonObj.getJSONObject("wind").getDouble("wspd" + xhourLater + "hour"));
