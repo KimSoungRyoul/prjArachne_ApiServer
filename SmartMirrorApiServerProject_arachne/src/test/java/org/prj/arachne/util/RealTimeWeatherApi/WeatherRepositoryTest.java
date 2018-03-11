@@ -33,6 +33,7 @@ public class WeatherRepositoryTest {
 	
 	
 	@Test
+	@Transactional
 	public void BweatherRepositoryfindTest() {
 		
 

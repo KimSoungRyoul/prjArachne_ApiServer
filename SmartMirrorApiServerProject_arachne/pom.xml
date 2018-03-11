@@ -160,8 +160,8 @@
 
 
 
-		<!-- https://mvnrepository.com/artifact/com.mysema.querydsl/querydsl-apt -->
-		<dependency>
+	 	<!-- https://mvnrepository.com/artifact/com.mysema.querydsl/querydsl-apt -->
+	<!--	<dependency>
 			<groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 			<version>${querydsl-apt.version}</version>
@@ -169,19 +169,19 @@
 		</dependency>
 
 
-		<!-- https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa -->
+		https://mvnrepository.com/artifact/com.querydsl/querydsl-jpa
 		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/ecj -->
+		https://mvnrepository.com/artifact/org.eclipse.jdt.core.compiler/ecj
 		<dependency>
 			<groupId>org.eclipse.jdt.core.compiler</groupId>
 			<artifactId>ecj</artifactId>
 			<version>4.3.1</version>
 		</dependency>
-
+ -->
 
 
 
@@ -198,7 +198,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<plugin>
+		<!-- 	<plugin>
 				<groupId>com.mysema.maven</groupId>
 				<artifactId>apt-maven-plugin</artifactId>
 				<version>1.0.9</version>
@@ -213,7 +213,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin> -->
 
 		</plugins>
 	</build>

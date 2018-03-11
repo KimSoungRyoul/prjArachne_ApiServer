@@ -11,7 +11,7 @@ public class DocumentController {
 	public String mailHtml() {
 		
 		
-		return "mailform";
+		return "simpleform";
 		
 	}
 	

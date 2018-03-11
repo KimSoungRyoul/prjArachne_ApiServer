@@ -2,12 +2,12 @@ package org.prj.arachne.configuration;
 
 import javax.servlet.MultipartConfigElement;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
 @Configuration
@@ -19,12 +19,14 @@ public class MultipartConfiguration {
 	private final static int FILE_SIZE_THREADHOLD=1024*1024*512;
 	
 	@Bean("uploadPath")
+	@Qualifier("uploadFilePath")
 	@Profile("dev")
 	public String uploadPath() {
-		return "C:\\ArachneProject\\testMedia";
+		return "/home/kimsoungryoul/문서/testfile";
 	}
 
 	@Bean("uploadPath")
+	@Qualifier("uploadFilePath")
 	@Profile("product")
 	public String uploadPath2() {
 		return "/home/ubuntu/arachneFileStorage";

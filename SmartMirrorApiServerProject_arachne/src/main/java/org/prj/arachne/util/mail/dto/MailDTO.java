@@ -7,10 +7,14 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MailDTO {
 
 	private String title;
@@ -18,7 +22,7 @@ public class MailDTO {
 	private String contents;
 
 	@Setter(value = AccessLevel.PRIVATE)
-	private String from = "KimSoungRyoul@gmail.com";
+	private String from = "arachne0823@gmail.com";
 
 	private String to;
 

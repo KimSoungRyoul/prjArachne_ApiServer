@@ -13,6 +13,8 @@ import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
 import org.prj.arachne.domain.member.repository.MemberInfoRepository;
 import org.prj.arachne.domain.member.valueObj.AuthorityType;
 import org.prj.arachne.domain.member.valueObj.Password;
+import org.prj.arachne.util.mail.MailSenderUtil;
+import org.prj.arachne.util.mail.dto.MailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,15 +32,18 @@ public class MemberInfoService {
 
 	private PasswordEncoder passwordEncoder;
 
+	private MailSenderUtil mailSender;
+	
+	
 	@Autowired
 	public MemberInfoService(MemberInfoRepository mInfoRepo, MemberAccountRepository mRepo,
-			MemberAuthorityRepository mAuthRepo,
-			org.springframework.security.crypto.password.PasswordEncoder passwordEncoder) {
+			MemberAuthorityRepository mAuthRepo, PasswordEncoder passwordEncoder, MailSenderUtil mailSender) {
 		super();
 		this.mInfoRepo = mInfoRepo;
 		this.mRepo = mRepo;
 		this.mAuthRepo = mAuthRepo;
 		this.passwordEncoder = passwordEncoder;
+		this.mailSender = mailSender;
 	}
 
 	@PreAuthorize("(#memberSerialNum == principal.memberId) and hasAuthority('NORMAL_USER')")
@@ -75,6 +80,11 @@ public class MemberInfoService {
 		newMember.setAuthorities(mAuths);
 
 		mRepo.save(newMember);
+		
+		
+		
+		mailSender.sendWithHTML(new MailDTO("Arachne 회원가입을 환영합니다", null, "arachne0823@gmail.com",
+									newMember.getEmail(), null));
 
 	}
 

@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.imageio.ImageIO;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 
@@ -23,6 +24,7 @@ public class FileUploadUtil {
 
 	
 	@Autowired
+	@Qualifier("uploadFilePath")
 	@Getter
 	private String uploadPath;
 	

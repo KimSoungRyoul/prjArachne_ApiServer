@@ -26,6 +26,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	MemberAuthenticationService memberService;
 
+
 	@Bean 
 	public HttpSessionStrategy httpSessionStrategy() { 
 		return new HeaderHttpSessionStrategy(); 
@@ -52,7 +53,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			.and()
 
 			
+			
 			.authorizeRequests()
+				.antMatchers("/**").permitAll()
+
 				.antMatchers("/oauth/authorize").permitAll()
 				.antMatchers("/test/**").permitAll()
 				.antMatchers(HttpMethod.POST,"/api/v1/members").anonymous() /* 회원가입 */
