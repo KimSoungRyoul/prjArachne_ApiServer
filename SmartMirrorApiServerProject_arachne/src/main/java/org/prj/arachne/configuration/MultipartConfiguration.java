@@ -22,7 +22,7 @@ public class MultipartConfiguration {
 	@Qualifier("uploadFilePath")
 	@Profile("dev")
 	public String uploadPath() {
-		return "/home/kimsoungryoul/문서/testfile";
+		return "C:\\Users\\KimSoungRyoul\\Documents\\ArachneProject\\arachneServer_fiileStorage";
 	}
 
 	@Bean("uploadPath")
@@ -50,15 +50,7 @@ public class MultipartConfiguration {
 	    return new StandardServletMultipartResolver();
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	//Servlet 3.0 이하  버젼 호환 
 	// 관련 내용 http://java.ihoney.pe.kr/351 참조 
 	/*@Bean

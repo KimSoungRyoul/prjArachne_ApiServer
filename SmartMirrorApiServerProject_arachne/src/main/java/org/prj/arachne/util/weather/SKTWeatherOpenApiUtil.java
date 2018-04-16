@@ -48,6 +48,7 @@ public class SKTWeatherOpenApiUtil {
 
 	}
 
+
 	public WeatherForecast requestWeatherForecast(String city, String county, String village) {
 
 		WeatherForecast weatherEntity = null;

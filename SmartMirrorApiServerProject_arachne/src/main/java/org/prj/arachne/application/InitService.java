@@ -68,7 +68,8 @@ public class InitService {
 
 
 
-	//@PostConstruct
+	@PostConstruct
+	@Transactional
 	public void init() {
 		
 		createUser1();
@@ -78,7 +79,7 @@ public class InitService {
 		
 	}
 	
-	@Transactional
+
 	private void createUser1() {
 
 		MemberAccount mAcc=new MemberAccount();

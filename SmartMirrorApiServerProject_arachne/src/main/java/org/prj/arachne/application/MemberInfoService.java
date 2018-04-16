@@ -82,7 +82,7 @@ public class MemberInfoService {
 		mRepo.save(newMember);
 		
 		
-		
+		//  가입 메일 발송
 		mailSender.sendWithHTML(new MailDTO("Arachne 회원가입을 환영합니다", null, "arachne0823@gmail.com",
 									newMember.getEmail(), null));
 
