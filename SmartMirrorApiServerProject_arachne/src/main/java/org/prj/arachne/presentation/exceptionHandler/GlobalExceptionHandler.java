@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
+import org.prj.arachne.application.exception.FailToDoItemServiceException;
+import org.prj.arachne.application.exception.FailUpdateToDoItemServiceException;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,34 @@ public class GlobalExceptionHandler {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 
 	}
+
+
+    @ExceptionHandler(value = FailToDoItemServiceException.class)
+    public ResponseEntity<Map<String,Object>> ToDoItemServiceException(){
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
+                "toDoItem 관련 요청이 실패했습니다 input 형식을 검토해주세요"));
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+    }
+
+	@ExceptionHandler(value = FailUpdateToDoItemServiceException.class)
+	public ResponseEntity<Map<String,Object>> ToDoItemUpdateServiceException(){
+
+		Map<String, Object> response = new HashMap<>();
+
+		response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
+				"해당 TodoItem이 존재하지 않아서 수정할수 없습니다. id를 확인해주세요"));
+
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+	}
+
+
+
 /*
 	@ExceptionHandler(value = { MultipartException.class})
 	@ResponseStatus(value=HttpStatus.BAD_REQUEST)

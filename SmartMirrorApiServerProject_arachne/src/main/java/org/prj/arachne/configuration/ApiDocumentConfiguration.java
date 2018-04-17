@@ -28,7 +28,7 @@ public class ApiDocumentConfiguration {
 				.select()
 				   			
 				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.ant("/api/**"))
+				.paths(PathSelectors.ant("/api/v1/**"))
 				
 				.build();
 				

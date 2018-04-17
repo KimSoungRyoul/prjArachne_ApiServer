@@ -62,6 +62,7 @@ public class ContentsApiController implements Version1ApiMapping{
 								value="회원이 저장한 파일의 닉네임을 말합니다",paramType="path"),
 		@ApiImplicitParam(name="userEmail",dataType="String",
 								value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",paramType="path")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 	})
 	@GetMapping("/contents/{userEmail}/{fileName}")
 	public ResponseEntity<InputStreamResource> requireContents(@RequestParam("requesttype") String requestType,
@@ -97,6 +98,7 @@ public class ContentsApiController implements Version1ApiMapping{
 		@ApiImplicitParam(name="userEmail",dataType="String",
 				value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",
 				paramType="path")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 	})
 	@PostMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> uploadContents(@PathVariable("userEmail")String userEmail,
@@ -138,6 +140,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileNickName",dataType="String",value="회원이 소유한파일들중에서는 이름이 고유합니다",paramType="path"),
 		@ApiImplicitParam(name="userEmail",dataType="String",value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",paramType="path")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 	})
 	@DeleteMapping("/contents/{userEmail}/{fileNickName}")
 	public ResponseEntity<Map<String, Object>> removeContents(@PathVariable("userEmail")String userEmail,
@@ -168,6 +171,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	@ApiOperation(value="영상 스트리밍을 위한 요청입니다 아마 이번 프로젝트에서는 안쓰일것 같기는 하네요")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileName",dataType="String",value="회원이 소유한파일들중에서는 고유한 이름입니다",paramType="path")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 	})
 	@RequestMapping(value = "/contents/video/{fileName}", method = RequestMethod.GET)
 	  public void getVideo(HttpServletRequest req, HttpServletResponse res, @PathVariable("fileName") String fileName) {

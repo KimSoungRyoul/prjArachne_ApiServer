@@ -31,7 +31,8 @@ public class MemoApiController implements Version1ApiMapping{
 		Map<String, Object> values=new HashMap<>();
 		values.put("entity", null);
 		values.put("status", new StatusEntity("MemberInfo Api", ArachneStatus.SUCCESS, "정상적인 요청 입니다"));
-		
+
+		System.out.println("asdf");
 		entity=new ResponseEntity<>(values,HttpStatus.OK);
 		
 		return entity;

@@ -9,6 +9,7 @@ public interface WeatherForecastRepositroy extends CrudRepository<WeatherForecas
 
 	public WeatherForecast findTop1ByGridCityAndGridCountryAndGridVillageOrderByReleaseTime(String city,String county,String village);
 
+	public WeatherForecast findTop1ByGridLatitudeAndGridLongtitude(Double gridLatitude,Double gridLongtitude);
 
 
 

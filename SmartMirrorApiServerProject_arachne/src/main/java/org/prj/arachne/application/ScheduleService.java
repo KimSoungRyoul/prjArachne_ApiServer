@@ -2,6 +2,7 @@ package org.prj.arachne.application;
 
 import lombok.AllArgsConstructor;
 import org.prj.arachne.application.exception.FailToDoItemServiceException;
+import org.prj.arachne.application.exception.FailUpdateToDoItemServiceException;
 import org.prj.arachne.domain.Schedule.ToDoItem;
 import org.prj.arachne.domain.Schedule.ToDoItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class ScheduleService {
 
     private ToDoItemRepository toDoItemRepository;
 
-    @Transactional
+    //@Transactional
     public void registerToDoItem(ToDoItem toDoItem) {
 
         try {
@@ -33,7 +34,7 @@ public class ScheduleService {
 
         List<ToDoItem> toDoItemList= null;
         try {
-            toDoItemList = toDoItemRepository.findByIdOrderByDateAsc(memberSerialNum);
+            toDoItemList = toDoItemRepository.findByItemOwnerMemberIdOrderByDateAsc(memberSerialNum);
         } catch (Exception e) {
             e.printStackTrace();
             throw new FailToDoItemServiceException("ToDoItem 리스트 목록 요청에 실패했습니다. ");
@@ -44,10 +45,23 @@ public class ScheduleService {
 
     }
 
-    public void deleteToDoItemList(List<ToDoItem> toDoItems){
+    public void modifyToDoItem(ToDoItem toDoItem){
+
+       if(toDoItemRepository.exists(toDoItem.getId())){
+
+           toDoItemRepository.save(toDoItem);
+
+        }else {
+           throw new FailUpdateToDoItemServiceException("해당 TOdoItem이 존재하지 않습니다.....");
+       }
+
+    }
+
+
+    public void deleteToDoItemList(Long id){
 
         try {
-            toDoItemRepository.delete(toDoItems);
+            toDoItemRepository.delete(id);
         } catch (Exception e) {
             e.printStackTrace();
             throw new FailToDoItemServiceException("TODOItemS 삭제에 실패했습니다.....");

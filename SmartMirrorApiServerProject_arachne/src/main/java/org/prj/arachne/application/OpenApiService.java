@@ -48,6 +48,27 @@ public class OpenApiService {
 	}
 
 	@Transactional
+	public WeatherForecast requestwForecast(String latitude,String longitude) {
+
+		WeatherForecast wf;
+
+		wf = wfRepo.findTop1ByGridLatitudeAndGridLongtitude(Double.parseDouble(latitude),Double.parseDouble(longitude));
+
+
+		if (wf == null) {
+			log.info("db에 저장된 날씨정보가 없습니다 Api를 통해 데이터를 가져옵니다......");
+			wf = sktwApi.requestWeatherForecast(latitude,longitude);
+
+		}else {
+			wf.getFcsPieceList();
+			wf.getFcstextPair();
+
+		}
+		return wf;
+	}
+
+
+	@Transactional
 	public void registerWeatherForcaset(WeatherForecast wf) {
 
 		fpRepo.save(wf.getFcsPieceList());

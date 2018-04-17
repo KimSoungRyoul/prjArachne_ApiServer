@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.prj.arachne.domain.Schedule.ToDoItem;
 import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
 import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
@@ -47,20 +48,22 @@ public class InitService {
 	PasswordEncoder passwordEncoder;
 
 	FileInfoRepository fInfoRepository;
-	
+
+	ScheduleService scheduleService;
 
 	
 
 
 	@Autowired
 	public InitService(MemberAccountRepository mRepo, MemberAuthorityRepository mAuthRepo,
-			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder, FileInfoRepository fInfoRepository) {
+			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder, FileInfoRepository fInfoRepository, ScheduleService scheduleService) {
 		super();
 		this.mRepo = mRepo;
 		this.mAuthRepo = mAuthRepo;
 		this.mInfoRepo = mInfoRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.fInfoRepository = fInfoRepository;
+		this.scheduleService = scheduleService;
 	}
 
 
@@ -75,10 +78,26 @@ public class InitService {
 		createUser1();
 		
 		createUser2();
+
+
+		createToDoItem();
 			
 		
 	}
-	
+
+	private void createToDoItem(){
+
+
+		ToDoItem toDoItem=new ToDoItem(null,null,new Date(),"testTitle","conte가나다라마바사fasdasfasd");
+
+		MemberAccount memberAccount=new MemberAccount(1L);
+
+		toDoItem.setItemOwner(memberAccount);
+
+		scheduleService.registerToDoItem(toDoItem);
+
+	}
+
 
 	private void createUser1() {
 

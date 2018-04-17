@@ -50,7 +50,8 @@ public class MemberApiController implements Version1ApiMapping{
 	 @ApiOperation(value = "회원 정보 조회",response=MemberInfo.class,produces="application/json")
 	    @ApiImplicitParams({
 	            @ApiImplicitParam(name = "memberSerialNum", value = "회원고유번호", required = true, paramType="path", dataType = "Long", defaultValue = ""),        
-	    })
+	    		@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
+		})
 	@GetMapping("/members/{memberSerialNum}")
 	public ResponseEntity<Map<String, Object>> GETMemberInfo(@PathVariable("memberSerialNum")Long memberSerialNum) {
 		
@@ -124,7 +125,8 @@ public class MemberApiController implements Version1ApiMapping{
 		 @ApiImplicitParam(name="memberDto",dataType="MemberDTO",
 		 						value="body로 들어오는수정되야하는 회원 정보입니다 \r\n 넘길때 변경되지 않는내용도 같이 넘겨주셔야합니다 \r\n 주의: Gender는 MAN WOMAN만 있고 ptype은 SLIM ,FAT만 존재합니다",
 		 						 example="memberDto"
-				 )
+				 ),
+			 @ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 		 
 	 }
 	)			 
@@ -174,14 +176,6 @@ public class MemberApiController implements Version1ApiMapping{
 			
 			break;
 		}
-		
-		
-		
-		
-		
-		
-	
-				
 		
 		Map<String, Object> values=new HashMap<>();
 		

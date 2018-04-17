@@ -55,9 +55,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 			
 			
 			.authorizeRequests()
-				.antMatchers("/**").permitAll()
 
-				.antMatchers("/oauth/authorize").permitAll()
+
+				//.antMatchers("/**").permitAll()
+
+				.antMatchers("/auth/authorize").permitAll()
 				.antMatchers("/test/**").permitAll()
 				.antMatchers(HttpMethod.POST,"/api/v1/members").anonymous() /* 회원가입 */
 				.antMatchers("/403").permitAll()

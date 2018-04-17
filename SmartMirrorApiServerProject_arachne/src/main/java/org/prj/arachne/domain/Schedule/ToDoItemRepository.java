@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface ToDoItemRepository extends JpaRepository<ToDoItem, Long> {
 
-    List<ToDoItem> findByIdOrderByDateAsc(Long id);
+    List<ToDoItem> findByItemOwnerMemberIdOrderByDateAsc(Long itemOwnerMemberId);
 }

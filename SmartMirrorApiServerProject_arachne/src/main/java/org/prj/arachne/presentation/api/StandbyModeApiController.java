@@ -45,11 +45,12 @@ public class StandbyModeApiController implements Version1ApiMapping{
 	
 	
 
-	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다",response=WeatherForecast.class,produces="application/json")
+	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다(주소기반)",response=WeatherForecast.class,produces="application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="city",value="도,시 빼고 입력하기 ex)서울시(x),서울(o),경기(o) 이거는 틀리면 아예 데이터 안줌",paramType="path"),
 		@ApiImplicitParam(name="county",value="ex)중랑구,시흥시",paramType="path"),
 		@ApiImplicitParam(name="village",value="ex) 정왕동, 상봉1동,vilage는 정확하지 않아도 어느정도 api내부에서 좌표 수정합니다.",paramType="path")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
 	})
 	@GetMapping("/weather/{city}/{county}/{village}")
 	public ResponseEntity<Map<String, Object>> sktWeather(@PathVariable("city") String city,
@@ -86,8 +87,56 @@ public class StandbyModeApiController implements Version1ApiMapping{
 		return entity;
 	}
 
+
+	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다(좌표기반)",response=WeatherForecast.class,produces="application/json")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="latitude",value="좌표정보 lat",dataType = "String",paramType="query"),
+			@ApiImplicitParam(name="longitude",value="좌표정보 lon",dataType = "String",paramType="query")
+			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
+	})
+	@GetMapping("/weather")
+	public ResponseEntity<Map<String, Object>> sktWeather(@RequestParam("latitude")String latitude,@RequestParam("longitude") String longitude){
+
+
+		ResponseEntity<Map<String, Object>> entity=null;
+
+
+		Map<String, Object> values=new HashMap<>();
+
+		WeatherForecast wf=oaService.requestwForecast(latitude,longitude);
+
+		StatusEntity status=new StatusEntity();
+		status.setApiType("SKT 기상관측자료 OpenApi");
+		status.setMessage("SUCCSS");
+		status.setStatusCode(ArachneStatus.SUCCESS);
+
+
+
+		values.put("status", status);
+		values.put("entity", wf);
+
+
+
+		entity=new ResponseEntity<>(values,HttpStatus.OK);
+
+
+
+
+
+
+		return entity;
+	}
+
+
+
+
+
+
+
+
+
 	
-	@ApiOperation(value="기상청 OpenApi 활용한 '과거'날씨 정보들 ")
+	@ApiOperation(value="기상청 OpenApi 활용한 '과거'날씨 정보들 (사용 안함)")
 	@GetMapping("/weather/{placeName}")
 	public ResponseEntity<Map<String, Object>> weather(@PathVariable("placeName") String place
 														,@RequestParam("startDt") String startDt

@@ -39,6 +39,25 @@ public class SKTWeatherOpenApiTest {
 		assertNotNull(wf);
 		
 	}
+
+	@Test
+	public void restTemplateTest2(){
+
+		WeatherForecast wf= weatherUtil.requestWeatherForecast("37.342261","126.7280586");
+
+		log.info("-------------- weatherForecast Data----------------------------");
+		log.info(wf.getGrid().toString());
+		log.info(wf.getReleaseTime());
+		log.info(wf.getDayMinMax());
+		log.info(wf.getFcsPieceList().toString());
+		log.info(wf.getFcstextPair().toString());
+
+		assertNotNull(wf);
+
+
+
+
+	}
 	
 		
 	

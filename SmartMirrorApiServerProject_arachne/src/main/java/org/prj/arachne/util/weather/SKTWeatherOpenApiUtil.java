@@ -134,9 +134,94 @@ public class SKTWeatherOpenApiUtil {
 	
 	}
 
-	
-	
-	
+	public WeatherForecast requestWeatherForecast(String latitude,String longitude) {
+
+		WeatherForecast weatherEntity = null;
+		try {
+			URI uri = UriComponentsBuilder.newInstance()
+					.scheme("https").host("api2.sktelecom.com")
+					.path("/weather/forecast/3days")
+					.queryParam("version", version)
+					.queryParam("lat",latitude)
+					.queryParam("lon",longitude)
+					.queryParam("foretxt", foretxt)
+					.build()
+					.encode("UTF-8")
+					.toUri();
+
+			MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+			headers.add("charset", "UTF-8");
+			headers.add("content-type", "application/json");
+			headers.add("appKey", appKey);
+
+			HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
+
+			log.info("weatherApi uri: "+ uri);
+
+			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+
+
+
+			JSONObject rootJsonObj = new JSONObject(responseEntity.getBody().toString());
+
+
+
+			JSONArray jArr = rootJsonObj.getJSONObject("weather").getJSONArray("forecast3days");
+
+			rootJsonObj = jArr.getJSONObject(0);
+
+
+
+			Grid grid=this.gridParser(rootJsonObj.getJSONObject("grid"), latitude,longitude);
+
+			Date timeRelease= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rootJsonObj.getString("timeRelease"));
+
+
+
+			FcsText fctText=this.fcsTestParser(rootJsonObj.getJSONObject("fcstext"));
+			FcsText fctTextRegion=this.fcsTestParser(rootJsonObj.getJSONObject("fcstextRegion"));
+
+			List<FcsText> fctList=new LinkedList<>();
+			fctList.add(fctText);
+			fctList.add(fctTextRegion);
+
+			List<FcsPiece> fpList=this.fcst3And6hourJsonObjParser(rootJsonObj.getJSONObject("fcst3hour"),
+					rootJsonObj.getJSONObject("fcst6hour"));
+
+			FcstDaily fcstDaily=this.fcstDailyParser(rootJsonObj.getJSONObject("fcstdaily").getJSONObject("temperature"));
+
+
+
+
+			weatherEntity=new WeatherForecast();
+			weatherEntity.setFcsPieceList(fpList);
+			weatherEntity.setGrid(grid);
+			weatherEntity.setReleaseTime(timeRelease);
+			weatherEntity.setFcstextPair(fctList);
+			weatherEntity.setDayMinMax(fcstDaily);
+
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("시간 포맷 timeRelease 파싱에 실패했습니다----------------------------");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return weatherEntity;
+
+
+	}
+
+
+
+
+
 	private FcstDaily fcstDailyParser(JSONObject valueObjJsonObj) {
 		// TODO Auto-generated method stub
 		
@@ -178,6 +263,26 @@ public class SKTWeatherOpenApiUtil {
 
 
 	}
+
+	private Grid gridParser(JSONObject valueObjJsonObj,String latitude,String longitude) {
+
+		try {
+			return new Grid(valueObjJsonObj.getString("village"),
+					valueObjJsonObj.getString("city"),
+					valueObjJsonObj.getString("county"),
+					Double.parseDouble(latitude),
+					Double.parseDouble(longitude));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("-----------gridParser에 문제가 있습니다---------", e);
+
+		}
+		return null;
+
+
+	}
+
 	
 	
 	private FcsText fcsTestParser(JSONObject valueObjJsonObj) {

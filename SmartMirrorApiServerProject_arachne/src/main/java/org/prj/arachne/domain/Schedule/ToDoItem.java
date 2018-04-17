@@ -1,6 +1,7 @@
 package org.prj.arachne.domain.Schedule;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class ToDoItem {
 
     @ManyToOne
     @JoinColumn(name = "itemOwner_id")
+    @JsonIgnore
     private MemberAccount itemOwner;
 
 
