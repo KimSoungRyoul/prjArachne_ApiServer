@@ -16,6 +16,7 @@ import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
+import org.prj.arachne.util.file.MediaUtils;
 import org.prj.arachne.util.file.MultipartFileStreamingSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -54,7 +55,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	@Autowired
 	private ContentsService contentsService;
 
-	@ApiOperation(value="컨텐츠를 불러옵니다")
+	@ApiOperation(value="컨텐츠를 불러옵니다",produces="application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="requesttype",dataType="String",
 								value="download 또는 streaming 값중 하나 넣으시면 됩니다 ",paramType="query"),
@@ -68,10 +69,11 @@ public class ContentsApiController implements Version1ApiMapping{
 	public ResponseEntity<InputStreamResource> requireContents(@RequestParam("requesttype") String requestType,
 			@PathVariable("userEmail") String userEmail, @PathVariable("fileName") String fileName) {
 
+		FileInfo fileInfo=contentsService.requestFileInfo(userEmail, fileName);
+
 		String filePath = new StringBuilder()
 							.append(filePathDefault)
-							.append(contentsService.requestFileInfo(userEmail, fileName)
-									.getFileLocation())
+							.append(fileInfo.getFileLocation())
 							.toString();
 
 		log.info("--------------" + filePath);
@@ -82,7 +84,7 @@ public class ContentsApiController implements Version1ApiMapping{
 				return streaming(filePath, fileName);
 	
 			case "download":
-				return download(filePath, fileName);
+				return download(filePath, fileName,fileInfo.getFileType().toString());
 
 		}
 
@@ -90,7 +92,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	}
 
 	
-	@ApiOperation(value="컨텐츠를 fileServer에 저장합니다")
+	@ApiOperation(value="컨텐츠를 fileServer에 저장합니다",produces="application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileNickName",dataType="String",
 				value="클라이언트에서 파일 닉네임 정해주세요, 회원이 소유한파일들중에서는 이름이 고유해야합니다"
@@ -121,7 +123,8 @@ public class ContentsApiController implements Version1ApiMapping{
 		
 		FileInfo fileInfo= contentsService.registerContents(fileNickName,userEmail,file.getOriginalFilename(),file.getBytes());
 				
-		
+		fileInfo.excludedSecurityInfo();
+
 		Map<String, Object> values=new HashMap<>();
 		
 		
@@ -136,7 +139,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 
-	@ApiOperation(value="컨텐츠를 삭제합니다")
+	@ApiOperation(value="컨텐츠를 삭제합니다",produces="application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileNickName",dataType="String",value="회원이 소유한파일들중에서는 이름이 고유합니다",paramType="path"),
 		@ApiImplicitParam(name="userEmail",dataType="String",value="회원 이메인 .@ 전부 합쳐서 보내셔야 합니다",paramType="path")
@@ -168,7 +171,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 	
-	@ApiOperation(value="영상 스트리밍을 위한 요청입니다 아마 이번 프로젝트에서는 안쓰일것 같기는 하네요")
+	@ApiOperation(value="영상 스트리밍을 위한 요청입니다 아마 이번 프로젝트에서는 안쓰일것 같기는 하네요",produces="application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileName",dataType="String",value="회원이 소유한파일들중에서는 고유한 이름입니다",paramType="path")
 			,@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
@@ -211,17 +214,28 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 	
-	private ResponseEntity<InputStreamResource> download(String filepath, String fileName) {
+	private ResponseEntity<InputStreamResource> download(String filepath, String fileName,String fileType) {
 		// TODO Auto-generated method stub
 		log.info("download : " + filepath);
 		File file = new File(filepath);
 
+		MediaType mType = MediaUtils.getMediaType(fileType.toUpperCase());
+
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-dispositon", "attachment; filename=" + fileName);
+
+		if(mType!=null){
+			headers.setContentType(mType);
+		}else{
+
+			headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		}
+
+		headers.add("Content-dispositon", "attachment; filename=\"" + fileName+"."+fileType.toLowerCase()+"\";");
 
 		try {
 			return ResponseEntity.ok().headers(headers).contentLength(file.length())
-					.contentType(MediaType.parseMediaType("application/octet-stream"))
+					
 					.body(new InputStreamResource(new FileInputStream(file)));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
