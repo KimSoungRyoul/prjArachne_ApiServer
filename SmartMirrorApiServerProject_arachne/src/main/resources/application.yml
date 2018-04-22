@@ -1,3 +1,5 @@
+
+---
 server:
   port: 80
 
@@ -7,7 +9,7 @@ server:
 spring:
 
   
-  profiles: dev
+  profiles: dev,unitTest
 
   thymeleaf:
     cache: false
@@ -82,7 +84,7 @@ spring:
   jpa:
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
    
   

@@ -235,7 +235,7 @@ public class ContentsApiController implements Version1ApiMapping{
 
 		try {
 			return ResponseEntity.ok().headers(headers).contentLength(file.length())
-					
+
 					.body(new InputStreamResource(new FileInputStream(file)));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block

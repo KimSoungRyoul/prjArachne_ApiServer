@@ -8,9 +8,11 @@ import org.prj.arachne.application.exception.UnSignedMemberException;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberAuthority;
 import org.prj.arachne.domain.member.MemberInfo;
+import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
 import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
 import org.prj.arachne.domain.member.repository.MemberInfoRepository;
+import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
 import org.prj.arachne.domain.member.valueObj.AuthorityType;
 import org.prj.arachne.domain.member.valueObj.Password;
 import org.prj.arachne.util.mail.MailSenderUtil;
@@ -33,17 +35,19 @@ public class MemberInfoService {
 	private PasswordEncoder passwordEncoder;
 
 	private MailSenderUtil mailSender;
-	
+
+	private MemberMirrorSettingInfoRepository memberMirrorSettingInfoRepository;
 	
 	@Autowired
 	public MemberInfoService(MemberInfoRepository mInfoRepo, MemberAccountRepository mRepo,
-			MemberAuthorityRepository mAuthRepo, PasswordEncoder passwordEncoder, MailSenderUtil mailSender) {
+			MemberAuthorityRepository mAuthRepo, PasswordEncoder passwordEncoder, MailSenderUtil mailSender,MemberMirrorSettingInfoRepository memberMirrorSettingInfoRepository) {
 		super();
 		this.mInfoRepo = mInfoRepo;
 		this.mRepo = mRepo;
 		this.mAuthRepo = mAuthRepo;
 		this.passwordEncoder = passwordEncoder;
 		this.mailSender = mailSender;
+		this.memberMirrorSettingInfoRepository=memberMirrorSettingInfoRepository;
 	}
 
 	@PreAuthorize("(#memberSerialNum == principal.memberId) and hasAuthority('NORMAL_USER')")
@@ -80,9 +84,13 @@ public class MemberInfoService {
 		newMember.setAuthorities(mAuths);
 
 		mRepo.save(newMember);
-		
-		
-		//  가입 메일 발송
+
+		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,newMember,
+				0,0,0,0,0,0);
+
+		memberMirrorSettingInfoRepository.save(settingInfo);
+
+		//  가입 메일 발송 비동기
 		mailSender.sendWithHTML(new MailDTO("Arachne 회원가입을 환영합니다", null, "arachne0823@gmail.com",
 									newMember.getEmail(), null));
 

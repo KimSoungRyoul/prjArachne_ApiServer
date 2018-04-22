@@ -4,14 +4,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 import org.prj.arachne.domain.weather.valueObj.FcstDaily;
 import org.prj.arachne.domain.weather.valueObj.Grid;
@@ -20,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import lombok.Data;
+import org.springframework.data.repository.cdi.Eager;
 
 @Data
 @Entity

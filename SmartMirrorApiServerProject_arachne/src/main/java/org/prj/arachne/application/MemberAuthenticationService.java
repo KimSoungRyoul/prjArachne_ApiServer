@@ -3,6 +3,7 @@ package org.prj.arachne.application;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

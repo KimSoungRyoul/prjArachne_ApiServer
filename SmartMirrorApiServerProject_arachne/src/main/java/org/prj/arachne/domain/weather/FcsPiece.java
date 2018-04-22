@@ -25,6 +25,7 @@ public class FcsPiece {
 	private double windDirection;
 	
 	private String skyStatus;
+
 	
 	private double temperature;
 	

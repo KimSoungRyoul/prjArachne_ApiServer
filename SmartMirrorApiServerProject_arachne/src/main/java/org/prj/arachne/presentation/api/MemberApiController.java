@@ -45,8 +45,7 @@ public class MemberApiController implements Version1ApiMapping{
 	
 	
 	
-	
-	
+
 	 @ApiOperation(value = "회원 정보 조회",response=MemberInfo.class,produces="application/json")
 	    @ApiImplicitParams({
 	            @ApiImplicitParam(name = "memberSerialNum", value = "회원고유번호", required = true, paramType="path", dataType = "Long", defaultValue = ""),        
@@ -73,10 +72,7 @@ public class MemberApiController implements Version1ApiMapping{
 	}
 	
 	 @ApiOperation(value = "회원 가입",response=StatusEntity.class,produces="application/json")
-	    @ApiImplicitParams({
-	           
-	    })
-	@PostMapping("/members")
+	 @PostMapping("/members")
 	public ResponseEntity<Map<String, Object>> signUpMember(
 			@ApiParam(name = "회원가입 정보", 
 						value = "회원 가입에 필요한 데이터들\n id,password 를 포함한 개인정보들", required = true)

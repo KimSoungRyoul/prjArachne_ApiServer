@@ -26,6 +26,6 @@ public class PhysicalInfo implements Serializable{
 	
 	@Enumerated(EnumType.STRING)
 	private PhysicalType pType;
-	
+
 	
 }

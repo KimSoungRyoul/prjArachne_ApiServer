@@ -11,6 +11,7 @@ import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.domain.fileinfo.valueObj.OwnerType;
 import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
+import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.prj.arachne.util.file.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,10 +29,14 @@ public class ContentsService {
 	@Autowired
 	private FileUploadUtil fileUtil;
 
+	@Autowired
+	private MemberAccountRepository memberAccountRepository;
+
 	@Transactional
 	public FileInfo requestFileInfo(String email, String fileNickName) {
 
-		FileInfo info = fileInfoRepo.findByFileSerialInfo(new FileInfoId(new MemberAccount(email), fileNickName));
+
+		FileInfo info = fileInfoRepo.findByFileSerialInfo(new FileInfoId(memberAccountRepository.findByEmail(email), fileNickName));
 
 		return info;
 
@@ -46,7 +51,9 @@ public class ContentsService {
 
 		log.info("파일 저장 fileLocation : " + fileLocation);
 
-		FileInfoId fileInfoId = new FileInfoId(new MemberAccount(userEmail), fileNickName);
+		MemberAccount ownerAccount= memberAccountRepository.findByEmail(userEmail);
+
+		FileInfoId fileInfoId = new FileInfoId(ownerAccount, fileNickName);
 
 		 fileInfo = new FileInfo(null,fileInfoId, fileLocation, new Date(),
 				FileType.valueOf(originalFileName
@@ -68,10 +75,11 @@ public class ContentsService {
 		 */
 
 		fileInfo = fileInfoRepo.findByFileSerialInfo(fileInfoId);
-		fileInfo.getFileSerialInfo().setMAccount(new MemberAccount(userEmail));
+		fileInfo.getFileSerialInfo().setMAccount(ownerAccount);
 		// fileInfo.setFileLocation(null);
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 			File fileThumnail=new File(fileUtil.getUploadPath()+fileLocation);
 			fileThumnail.delete();
 			File fileOrigin = new File(fileUtil.getUploadPath()+fileLocation.replaceFirst("s_", ""));

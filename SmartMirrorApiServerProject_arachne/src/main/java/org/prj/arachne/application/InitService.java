@@ -17,15 +17,18 @@ import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
 import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberAuthority;
 import org.prj.arachne.domain.member.MemberInfo;
+import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
 import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
 import org.prj.arachne.domain.member.repository.MemberInfoRepository;
+import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
 import org.prj.arachne.domain.member.valueObj.AuthorityType;
 import org.prj.arachne.domain.member.valueObj.Gender;
 import org.prj.arachne.domain.member.valueObj.Password;
 import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
 import org.prj.arachne.domain.member.valueObj.PhysicalType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,7 @@ import lombok.extern.log4j.Log4j;
 
 @Service
 @Log4j
+@Profile({"dev","unitTest"})
 public class InitService {
 
 	
@@ -49,14 +53,18 @@ public class InitService {
 
 	FileInfoRepository fInfoRepository;
 
+	MemberMirrorSettingInfoRepository memberMirrorSettingInfoRepository;
+
 	ScheduleService scheduleService;
 
-	
+	MemberInfoService memberInfoService;
 
 
 	@Autowired
 	public InitService(MemberAccountRepository mRepo, MemberAuthorityRepository mAuthRepo,
-			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder, FileInfoRepository fInfoRepository, ScheduleService scheduleService) {
+			MemberInfoRepository mInfoRepo, PasswordEncoder passwordEncoder, FileInfoRepository fInfoRepository,
+					   ScheduleService scheduleService,MemberInfoService memberInfoService,MemberMirrorSettingInfoRepository memberMirrorSettingInfoRepository
+					   ) {
 		super();
 		this.mRepo = mRepo;
 		this.mAuthRepo = mAuthRepo;
@@ -64,7 +72,10 @@ public class InitService {
 		this.passwordEncoder = passwordEncoder;
 		this.fInfoRepository = fInfoRepository;
 		this.scheduleService = scheduleService;
+		this.memberInfoService = memberInfoService;
+		this.memberMirrorSettingInfoRepository = memberMirrorSettingInfoRepository;
 	}
+
 
 
 
@@ -102,7 +113,7 @@ public class InitService {
 	private void createUser1() {
 
 		MemberAccount mAcc=new MemberAccount();
-		
+		mAcc.setMemberId(1L);
 		mAcc.setEmail("KimSoungRyoul@gmail.com");
 		mAcc.setPassword(new Password(this.passwordEncoder.encode("12345")));
 		mAcc.setAccountNonLocked(true);
@@ -157,14 +168,21 @@ public class InitService {
 		fInfo.getFileSerialInfo().setMAccount(mAcc);
 		
 		fInfoRepository.save(fInfo);
-			
+
+		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,null,
+				0,0,0,0,0,0);
+		memberMirrorSettingInfoRepository.save(settingInfo);
+		settingInfo.setSettingOwner(mAcc);
+		memberMirrorSettingInfoRepository.save(settingInfo);
+
 	}
 	
-	
+
 	public void createUser2() {
 
 		MemberAccount mAcc=new MemberAccount();
-		
+
+		mAcc.setMemberId(2L);
 		mAcc.setEmail("rlatjduf510@naver.com");
 		mAcc.setPassword(new Password(this.passwordEncoder.encode("12345")));
 		mAcc.setAccountNonLocked(true);
@@ -179,7 +197,7 @@ public class InitService {
 		mInfo.setName("권송");
 		mInfo.setPhoneNum("010-7237-6602");
 		mInfo.setPhysicalInfo(new PhysicalInfo(163, 55, PhysicalType.SLIM));
-		//mInfo.setInfoOwner(mAcc);
+		mInfo.setInfoOwner(mAcc);
 		mInfoRepo.save(mInfo);
 		
 		mInfo.setInfoOwner(mAcc);
@@ -188,22 +206,28 @@ public class InitService {
 		MemberAuthority mAuth=new MemberAuthority();
 		mAuth.setGrantedDate(new Date());
 		mAuth.setAuthorityType(AuthorityType.NORMAL_USER);
-		
+		mAuth.setAuthOwner(mAcc);
 		mAuthRepo.save(mAuth);
 		
 		
 		Set<MemberAuthority> authorities=new HashSet<>();
 		authorities.add(mAuth);
 		mAcc.setAuthorities(authorities);
-		
+
+		mAcc.setMInfo(mInfo);
 		
 		
 		
 		
 		mAuth.setAuthOwner(mAcc);
 		mAuthRepo.save(mAuth);
-		
-	
+
+		//memberInfoService.signUpMember(mAcc);
+		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,null,
+				0,0,0,0,0,0);
+		memberMirrorSettingInfoRepository.save(settingInfo);
+		settingInfo.setSettingOwner(mAcc);
+		memberMirrorSettingInfoRepository.save(settingInfo);
 			
 	}
 	

@@ -20,7 +20,7 @@ public class MultipartConfiguration {
 	
 	@Bean("uploadPath")
 	@Qualifier("uploadFilePath")
-	@Profile("dev")
+	@Profile({"dev","unitTest"})
 	public String uploadPath() {
 		return "C:\\Users\\KimSoungRyoul\\Documents\\ArachneProject\\arachneServer_fiileStorage";
 	}

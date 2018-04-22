@@ -4,6 +4,7 @@ import org.prj.arachne.application.MemberAuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +22,7 @@ import org.springframework.session.web.http.HttpSessionStrategy;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
+@Profile({"dev","product"})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -66,7 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				
 				
 				
-					
+					.antMatchers("/api/document").permitAll()
 					.antMatchers("/user").permitAll()
 					.antMatchers("/admin").hasAuthority("ADMIN")
 					.antMatchers("/api/**").hasAuthority("NORMAL_USER")

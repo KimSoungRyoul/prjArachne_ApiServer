@@ -76,6 +76,7 @@ public class FileInfo {
 	public FileInfo excludedSecurityInfo() {
 		
 		this.setFileLocation(null);
+		this.fileSerialInfo.setMAccount(null);
 		
 		return this;
 	}

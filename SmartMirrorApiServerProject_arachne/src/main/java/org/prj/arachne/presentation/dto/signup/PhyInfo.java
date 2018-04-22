@@ -12,13 +12,14 @@ import lombok.NoArgsConstructor;
 @ApiModel(description="회원 신체 정보")
 public class PhyInfo{
 
-	@ApiModelProperty(dataType="int",example="181")
-	private int height;
-
-	@ApiModelProperty(dataType="int",example="65")
-	private int weight;
-
 	@ApiModelProperty(dataType="String",example="SLIM")
 	private String pType;
-	
+
+	@ApiModelProperty(dataType="int",value = "height",example="181")
+	private int height;
+
+	@ApiModelProperty(dataType="int",value = "weight",example="65")
+	private int weight;
+
+
 }

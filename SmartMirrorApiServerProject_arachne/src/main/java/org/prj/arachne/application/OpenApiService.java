@@ -37,8 +37,11 @@ public class OpenApiService {
 
 		if (wf == null) {
 			log.info("db에 저장된 날씨정보가 없습니다 Api를 통해 데이터를 가져옵니다......");
+
 			wf = sktwApi.requestWeatherForecast(city, county, village);
-			
+			fpRepo.save(wf.getFcsPieceList());
+			ftRepo.save(wf.getFcstextPair());
+			wfRepo.save(wf);
 		}else {
 			wf.getFcsPieceList();
 			wf.getFcstextPair();
