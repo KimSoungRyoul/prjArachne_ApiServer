@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class MirrorSettingDTO {
 
-    private Long settingOwnerId;
+    //private Long settingOwnerId;
 
     private int posWeather;
     private int posCalendar;

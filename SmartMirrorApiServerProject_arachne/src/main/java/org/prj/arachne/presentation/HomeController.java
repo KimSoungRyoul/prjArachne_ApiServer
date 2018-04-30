@@ -42,7 +42,7 @@ public class HomeController {
 		
 		response.put("status", new StatusEntity("Arachne Api(ResourceServer) 담당자 김성렬", 
 												ArachneStatus.UNAUTHORIZED,
-												"토큰에 해당api 사용권한 권한없음 토큰의 만료, 토큰의 권한 등을 검토하세요 ")
+												"토큰에 해당api 사용권한 권한없음 토큰의 만료, 토큰의 권한 등을 검토하세요, 또는 해당회원이 존재하지않습니다. ")
 				);
 		
 		

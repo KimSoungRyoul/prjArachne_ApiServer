@@ -60,14 +60,14 @@ public class MirrorSettingInfoApiController implements Version1ApiMapping {
             @ApiImplicitParam(name = "x-auth-token", value = "인증토큰", required = true, paramType = "header", dataType = "string")
     }
     )
-    @PutMapping("/mirrorsetting")
-    public ResponseEntity<Map<String, Object>> PUTSettingInfo(@RequestBody MirrorSettingDTO mirrorSettingDTO) {
+    @PutMapping("/mirrorsetting/{memberSerialNum}")
+    public ResponseEntity<Map<String, Object>> PUTSettingInfo(@PathVariable("memberSerialNum")Long memberSerialNum, @RequestBody MirrorSettingDTO mirrorSettingDTO) {
 
         ResponseEntity<Map<String, Object>> response = null;
 
         Map<String, Object> values = new HashMap<>();
 
-        mirrorSettingService.modifyMirrorSetting(mirrorSettingDTO);
+        mirrorSettingService.modifyMirrorSetting(mirrorSettingDTO,memberSerialNum);
 
 
         values.put("status", new StatusEntity("MirrorSetting Api", ArachneStatus.SUCCESS, "정상적인 요청 입니다"));

@@ -3,6 +3,7 @@ package org.prj.arachne.domain.member;
 
 //RepoPosition
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class MemberMirrorSettingInfo {
     @GeneratedValue
     private Long id;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "setting_owner")
     private MemberAccount settingOwner;

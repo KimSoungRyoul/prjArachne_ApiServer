@@ -8,6 +8,7 @@ import java.util.Map;
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
 import org.prj.arachne.application.exception.FailToDoItemServiceException;
 import org.prj.arachne.application.exception.FailUpdateToDoItemServiceException;
+import org.prj.arachne.application.exception.UnSignedMemberException;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.springframework.http.HttpStatus;
@@ -21,21 +22,21 @@ import org.springframework.web.multipart.MultipartException;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(value = FileNotFoundException.class)
-	public ResponseEntity<Map<String, Object>> fileFoundFailExctpion() {
+    @ExceptionHandler(value = FileNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> fileFoundFailExctpion() {
 
-		Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
-		response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.NO_RESOURCE,
-				"해당 파일을 찾을수 없음 fileName 또는 userEmail에서 오탈자 검토하세요 "));
+        response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.NO_RESOURCE,
+                "해당 파일을 찾을수 없음 fileName 또는 userEmail에서 오탈자 검토하세요 "));
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 
-	}
+    }
 
 
     @ExceptionHandler(value = FailToDoItemServiceException.class)
-    public ResponseEntity<Map<String,Object>> ToDoItemServiceException(){
+    public ResponseEntity<Map<String, Object>> ToDoItemServiceException() {
 
         Map<String, Object> response = new HashMap<>();
 
@@ -46,18 +47,29 @@ public class GlobalExceptionHandler {
 
     }
 
-	@ExceptionHandler(value = FailUpdateToDoItemServiceException.class)
-	public ResponseEntity<Map<String,Object>> ToDoItemUpdateServiceException(){
+    @ExceptionHandler(value = FailUpdateToDoItemServiceException.class)
+    public ResponseEntity<Map<String, Object>> ToDoItemUpdateServiceException() {
 
-		Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
-		response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
-				"해당 TodoItem이 존재하지 않아서 수정할수 없습니다. id를 확인해주세요"));
+        response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
+                "해당 TodoItem이 존재하지 않아서 수정할수 없습니다. id를 확인해주세요"));
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 
-	}
+    }
 
+    //@ExceptionHandler(value = UnSignedMemberException.class)
+    public ResponseEntity<Map<String, Object>> UnSignedMemberException() {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
+                "존재하지 않는 회원입니다. id를 확인해주세요"));
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+    }
 
 
 /*
@@ -73,38 +85,35 @@ public class GlobalExceptionHandler {
 		return response;
 	}*/
 
-	
-	//@ExceptionHandler(value=IOException.class)
-	public ResponseEntity<Map<String, Object>> FileByteNullException(){
-		
-		
-		Map<String, Object> response = new HashMap<>();
 
-		response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
-				"file의  내용물[bytes]가 없습니다  Http요청에서 내용물을 검토하세요  IOException"));
+    //@ExceptionHandler(value=IOException.class)
+    public ResponseEntity<Map<String, Object>> FileByteNullException() {
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 
-		
-		
-	}
-	
-	
- 
-	@ExceptionHandler(value=ArachneNickAndUserEmialDuplicatedException.class)
-	public ResponseEntity<Map<String, Object>> DuplicatedException(){
-		
-		
-		Map<String, Object> response = new HashMap<>();
+        Map<String, Object> response = new HashMap<>();
 
-		response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
-				"같은 userEmail과 file의 NickName 가진 파일이 이미 존재합니다 .."));
+        response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
+                "file의  내용물[bytes]가 없습니다  Http요청에서 내용물을 검토하세요  IOException"));
 
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
 
-		
-		
-	}
-	
-	
+
+    }
+
+
+    @ExceptionHandler(value = ArachneNickAndUserEmialDuplicatedException.class)
+    public ResponseEntity<Map<String, Object>> DuplicatedException() {
+
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", new StatusEntity("contentsApi FileStorage", ArachneStatus.BADIO,
+                "같은 userEmail과 file의 NickName 가진 파일이 이미 존재합니다 .."));
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.BAD_REQUEST);
+
+
+    }
+
+
 }
