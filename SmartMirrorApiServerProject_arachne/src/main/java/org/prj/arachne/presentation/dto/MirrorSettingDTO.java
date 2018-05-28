@@ -15,4 +15,8 @@ public class MirrorSettingDTO {
     private int posNews;
     private int posWatch;
 
+    private String city;
+    private String county;
+    private String district;
+
 }

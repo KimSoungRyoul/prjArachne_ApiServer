@@ -11,11 +11,14 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.prj.arachne.domain.weather.FcsPiece;
-import org.prj.arachne.domain.weather.FcsText;
-import org.prj.arachne.domain.weather.WeatherForecast;
-import org.prj.arachne.domain.weather.valueObj.FcstDaily;
-import org.prj.arachne.domain.weather.valueObj.Grid;
+import org.prj.arachne.model.weather.FcsPiece;
+import org.prj.arachne.model.weather.FcsText;
+import org.prj.arachne.model.weather.SimpleWeather;
+import org.prj.arachne.model.weather.WeatherForecast;
+import org.prj.arachne.model.weather.valueObj.FcstDaily;
+import org.prj.arachne.model.weather.valueObj.Grid;
+import org.prj.arachne.model.weather.valueObj.PrecipitationType;
+import org.prj.arachne.model.weather.valueObj.simpleWeather.Precipitation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -47,6 +50,99 @@ public class SKTWeatherOpenApiUtil {
 		this.restTemplate = restTemplate;
 
 	}
+
+
+
+
+	public SimpleWeather requestSimpleWeatherForecaset(String lat, String lon) {
+
+		SimpleWeather simpleWeather=null;
+		try {
+			URI uri = UriComponentsBuilder.newInstance()
+					.scheme("https").host("api2.sktelecom.com")
+					.path("/weather/current/hourly")
+					.queryParam("version", version)
+					.queryParam("lat", lat)
+					.queryParam("lon", lon)
+
+					.build()
+					.encode("UTF-8")
+					.toUri();
+
+			MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+			headers.add("charset", "UTF-8");
+			headers.add("content-type", "application/json");
+			headers.add("appKey", appKey);
+
+			HttpEntity<Object> requestEntity = new HttpEntity<Object>(headers);
+
+			log.info("weatherApi uri: "+ uri);
+
+			ResponseEntity<String> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, requestEntity, String.class);
+
+
+
+			JSONObject rootJsonObj = new JSONObject(responseEntity.getBody().toString());
+
+
+
+			JSONArray jArr = rootJsonObj.getJSONObject("weather").getJSONArray("hourly");
+
+			rootJsonObj = jArr.getJSONObject(0);
+
+
+
+			Grid grid=this.gridParser(rootJsonObj.getJSONObject("grid"),lat,lon);
+
+			Date timeRelease= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rootJsonObj.getString("timeRelease"));
+
+			Precipitation precipitation = this.precipitationParser(rootJsonObj.getJSONObject("precipitation"));
+
+			String skyState=rootJsonObj.getJSONObject("sky").getString("name");
+
+			String temToday=rootJsonObj.getJSONObject("temperature").getString("tc");
+			String temMax=rootJsonObj.getJSONObject("temperature").getString("tmax");
+			String temMin=rootJsonObj.getJSONObject("temperature").getString("tmin");
+
+			String humidity = rootJsonObj.getString("humidity");
+			String windir=rootJsonObj.getJSONObject("wind").getString("wdir");
+			String winspeed=rootJsonObj.getJSONObject("wind").getString("wspd");
+
+
+			simpleWeather=new SimpleWeather(null,null,grid,timeRelease,precipitation,
+					skyState,temToday,temMax,temMin,humidity,windir,winspeed);
+
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			log.error("시간 포맷 timeRelease 파싱에 실패했습니다----------------------------");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return simpleWeather;
+
+
+	}
+
+	private Precipitation precipitationParser(JSONObject jObj){
+
+		return new Precipitation(jObj.getString("sinceOntime"),PrecipitationType.valueOf(jObj.getInt("type")));
+
+
+	}
+
+
+
+
+
+
+
 
 
 	public WeatherForecast requestWeatherForecast(String city, String county, String village) {

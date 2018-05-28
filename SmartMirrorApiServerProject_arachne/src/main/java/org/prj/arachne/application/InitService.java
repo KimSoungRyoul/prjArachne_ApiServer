@@ -7,26 +7,26 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
-import org.prj.arachne.domain.Schedule.ToDoItem;
-import org.prj.arachne.domain.fileinfo.FileInfo;
-import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
-import org.prj.arachne.domain.fileinfo.valueObj.FileInfoId;
-import org.prj.arachne.domain.fileinfo.valueObj.FileType;
-import org.prj.arachne.domain.fileinfo.valueObj.OwnerType;
-import org.prj.arachne.domain.fileinfo.valueObj.SaveStatus;
-import org.prj.arachne.domain.member.MemberAccount;
-import org.prj.arachne.domain.member.MemberAuthority;
-import org.prj.arachne.domain.member.MemberInfo;
-import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
-import org.prj.arachne.domain.member.repository.MemberAccountRepository;
-import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
-import org.prj.arachne.domain.member.repository.MemberInfoRepository;
-import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
-import org.prj.arachne.domain.member.valueObj.AuthorityType;
-import org.prj.arachne.domain.member.valueObj.Gender;
-import org.prj.arachne.domain.member.valueObj.Password;
-import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
-import org.prj.arachne.domain.member.valueObj.PhysicalType;
+import org.prj.arachne.model.Schedule.ToDoItem;
+import org.prj.arachne.model.fileinfo.FileInfo;
+import org.prj.arachne.model.fileinfo.repository.FileInfoRepository;
+import org.prj.arachne.model.fileinfo.valueObj.FileInfoId;
+import org.prj.arachne.model.fileinfo.valueObj.FileType;
+import org.prj.arachne.model.fileinfo.valueObj.OwnerType;
+import org.prj.arachne.model.fileinfo.valueObj.SaveStatus;
+import org.prj.arachne.model.member.MemberAccount;
+import org.prj.arachne.model.member.MemberAuthority;
+import org.prj.arachne.model.member.MemberInfo;
+import org.prj.arachne.model.member.MemberMirrorSettingInfo;
+import org.prj.arachne.model.member.repository.MemberAccountRepository;
+import org.prj.arachne.model.member.repository.MemberAuthorityRepository;
+import org.prj.arachne.model.member.repository.MemberInfoRepository;
+import org.prj.arachne.model.member.repository.MemberMirrorSettingInfoRepository;
+import org.prj.arachne.model.member.valueObj.AuthorityType;
+import org.prj.arachne.model.member.valueObj.Gender;
+import org.prj.arachne.model.member.valueObj.Password;
+import org.prj.arachne.model.member.valueObj.PhysicalInfo;
+import org.prj.arachne.model.member.valueObj.PhysicalType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -170,7 +170,7 @@ public class InitService {
 		fInfoRepository.save(fInfo);
 
 		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,null,
-				0,0,0,0,0,0);
+				0,0,0,0,0,0,null,null,null,null,null);
 		memberMirrorSettingInfoRepository.save(settingInfo);
 		settingInfo.setSettingOwner(mAcc);
 		memberMirrorSettingInfoRepository.save(settingInfo);
@@ -224,7 +224,7 @@ public class InitService {
 
 		//memberInfoService.signUpMember(mAcc);
 		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,null,
-				0,0,0,0,0,0);
+				0,0,0,0,0,0,null,null,null,null,null);
 		memberMirrorSettingInfoRepository.save(settingInfo);
 		settingInfo.setSettingOwner(mAcc);
 		memberMirrorSettingInfoRepository.save(settingInfo);

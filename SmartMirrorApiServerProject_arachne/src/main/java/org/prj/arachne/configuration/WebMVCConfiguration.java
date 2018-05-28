@@ -16,7 +16,12 @@ public class WebMVCConfiguration extends WebMvcConfigurerAdapter{
 		super.addViewControllers(registry);
 			
 		registry.addRedirectViewController("/api/document", "/swagger-ui.html");
-	
+
+		/*registry.addRedirectViewController("/api/v2/api-docs", "/v2/api-docs");
+		registry.addRedirectViewController("/api/swagger-resources/configuration/ui", "/swagger-resources/configuration/ui");
+		registry.addRedirectViewController("/api/swagger-resources/configuration/security", "/swagger-resources/configuration/security");
+		registry.addRedirectViewController("/api/swagger-resources", "/swagger-resources");*/
+
 	
 	}
 
@@ -24,12 +29,19 @@ public class WebMVCConfiguration extends WebMvcConfigurerAdapter{
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// TODO Auto-generated method stub
 		super.addResourceHandlers(registry);
-		
-		registry.addResourceHandler("swagger-ui.html")
-	      .addResourceLocations("classpath:/META-INF/resources/");
-	 
+
+		registry.addResourceHandler("/v2/api-docs")
+				.addResourceLocations("classpath:/META-INF/resources/");
+
+/*
 	    registry.addResourceHandler("/webjars/**")
-	      .addResourceLocations("classpath:/META-INF/resources/webjars/");
+	      .addResourceLocations("classpath:/META-INF/resources/webjars/");*/
+
+		registry.addResourceHandler("swagger-ui.html")
+				.addResourceLocations("classpath:/META-INF/resources/");
+
+		registry.addResourceHandler("/webjars/**")
+				.addResourceLocations("classpath:/META-INF/resources/webjars/");
 
 
 	    

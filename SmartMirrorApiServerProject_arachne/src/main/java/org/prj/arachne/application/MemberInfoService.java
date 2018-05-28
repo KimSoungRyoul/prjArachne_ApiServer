@@ -5,16 +5,16 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.prj.arachne.application.exception.UnSignedMemberException;
-import org.prj.arachne.domain.member.MemberAccount;
-import org.prj.arachne.domain.member.MemberAuthority;
-import org.prj.arachne.domain.member.MemberInfo;
-import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
-import org.prj.arachne.domain.member.repository.MemberAccountRepository;
-import org.prj.arachne.domain.member.repository.MemberAuthorityRepository;
-import org.prj.arachne.domain.member.repository.MemberInfoRepository;
-import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
-import org.prj.arachne.domain.member.valueObj.AuthorityType;
-import org.prj.arachne.domain.member.valueObj.Password;
+import org.prj.arachne.model.member.MemberAccount;
+import org.prj.arachne.model.member.MemberAuthority;
+import org.prj.arachne.model.member.MemberInfo;
+import org.prj.arachne.model.member.MemberMirrorSettingInfo;
+import org.prj.arachne.model.member.repository.MemberAccountRepository;
+import org.prj.arachne.model.member.repository.MemberAuthorityRepository;
+import org.prj.arachne.model.member.repository.MemberInfoRepository;
+import org.prj.arachne.model.member.repository.MemberMirrorSettingInfoRepository;
+import org.prj.arachne.model.member.valueObj.AuthorityType;
+import org.prj.arachne.model.member.valueObj.Password;
 import org.prj.arachne.util.mail.MailSenderUtil;
 import org.prj.arachne.util.mail.dto.MailDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +86,7 @@ public class MemberInfoService {
 		mRepo.save(newMember);
 
 		MemberMirrorSettingInfo settingInfo=new MemberMirrorSettingInfo(null,newMember,
-				0,0,0,0,0,0);
+				0,0,0,0,0,0,null,null,null,null,null);
 
 		memberMirrorSettingInfoRepository.save(settingInfo);
 

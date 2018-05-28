@@ -2,9 +2,8 @@ package org.prj.arachne.application;
 
 import lombok.AllArgsConstructor;
 import org.prj.arachne.application.exception.UnSignedMemberException;
-import org.prj.arachne.domain.member.MemberAccount;
-import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
-import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
+import org.prj.arachne.model.member.MemberMirrorSettingInfo;
+import org.prj.arachne.model.member.repository.MemberMirrorSettingInfoRepository;
 import org.prj.arachne.presentation.dto.MirrorSettingDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -6,7 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.prj.arachne.configuration.RestTemplate2Configuration;
-import org.prj.arachne.domain.weather.WeatherForecast;
+import org.prj.arachne.model.weather.SimpleWeather;
+import org.prj.arachne.model.weather.WeatherForecast;
 import org.prj.arachne.util.weather.SKTWeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -59,7 +60,15 @@ public class SKTWeatherOpenApiTest {
 
 	}
 	
-		
+	@Test
+	public void simpleWeatherTest(){
+
+		SimpleWeather simpleWeather=weatherUtil.requestSimpleWeatherForecaset("37.342261","126.7280586");
+
+		log.info(simpleWeather.toString());
+
+
+	}
 	
 	
 	

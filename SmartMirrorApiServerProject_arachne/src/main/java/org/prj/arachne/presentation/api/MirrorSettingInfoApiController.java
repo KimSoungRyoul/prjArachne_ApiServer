@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.prj.arachne.application.MirrorSettingService;
-import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
+import org.prj.arachne.model.member.MemberMirrorSettingInfo;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.MirrorSettingDTO;

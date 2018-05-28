@@ -42,7 +42,7 @@ public class MailSendTest {
 		dto.setContents("--------------------------!!!!!!!!!!!!!!!!!!!! 메일 간다_______");
 		dto.setTo("KimSoungRyoul@gmail.com");
 		
-		mailSenderUtil.sendSimpleMail(dto);
+		//mailSenderUtil.sendSimpleMail(dto);
 		
 		
 	}

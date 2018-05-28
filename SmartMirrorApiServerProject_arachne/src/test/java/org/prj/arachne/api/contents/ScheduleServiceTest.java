@@ -1,14 +1,13 @@
 package org.prj.arachne.api.contents;
 
 
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.prj.arachne.application.ScheduleService;
-import org.prj.arachne.domain.Schedule.ToDoItem;
-import org.prj.arachne.domain.member.MemberAccount;
+import org.prj.arachne.model.Schedule.ToDoItem;
+import org.prj.arachne.model.member.MemberAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;

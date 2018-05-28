@@ -5,14 +5,14 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.prj.arachne.application.OpenApiService;
-import org.prj.arachne.domain.weather.WeatherForecast;
-import org.prj.arachne.domain.weather.repository.WeatherForecastRepositroy;
+import org.prj.arachne.model.weather.SimpleWeather;
+import org.prj.arachne.model.weather.WeatherForecast;
+import org.prj.arachne.model.weather.repository.WeatherForecastRepositroy;
 import org.prj.arachne.util.weather.SKTWeatherOpenApiUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import lombok.extern.log4j.Log4j;
 
@@ -32,6 +32,17 @@ public class WeatherRepositoryTest {
 	private OpenApiService oaService;
 	
 	
+	//@Test
+	public void SimpleWeatherRequestService(){
+
+			SimpleWeather simpleWeather= oaService.requestwSimpleWeatherForecast("37.342261","126.7280586",1L);
+
+
+			log.info(simpleWeather.toString());
+
+	}
+
+
 
 	
 	@Test

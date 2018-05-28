@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.prj.arachne.application.OpenApiService;
-import org.prj.arachne.domain.weather.WeatherForecast;
+import org.prj.arachne.model.weather.SimpleWeather;
+import org.prj.arachne.model.weather.WeatherForecast;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
@@ -88,7 +89,58 @@ public class StandbyModeApiController implements Version1ApiMapping{
 	}
 
 
-	@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다(좌표기반)",response=WeatherForecast.class,produces="application/json")
+	@ApiOperation(value="간단 날씨정보 조회, (좌표기반)",response=SimpleWeather.class,produces="application/json")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name="latitude",value="좌표정보 lat",dataType = "String",paramType="query"),
+			@ApiImplicitParam(name="longitude",value="좌표정보 lon",dataType = "String",paramType="query"),
+			@ApiImplicitParam(name="memberId",value = "회원시리얼넘버",dataType = "Long",paramType = "path"),
+			@ApiImplicitParam(name="x-auth-token",value = "인증토큰",required = true, paramType = "header" ,dataType = "string")
+	})
+	@GetMapping("/weather/simple/{memberId}")
+	public ResponseEntity<Map<String, Object>> sktSimpleWeather(@RequestParam("latitude")String latitude,
+														  @RequestParam("longitude") String longitude,
+																@PathVariable("memberId")Long memberId) {
+
+
+		ResponseEntity<Map<String, Object>> entity=null;
+
+
+		Map<String, Object> values=new HashMap<>();
+
+		SimpleWeather wf=oaService.requestwSimpleWeatherForecast(latitude, longitude,memberId);
+
+		StatusEntity status=new StatusEntity();
+		status.setApiType("SKT 기상관측자료 OpenApi");
+		status.setMessage("simple Weather 입니다.");
+		status.setStatusCode(ArachneStatus.SUCCESS);
+
+
+
+		values.put("status", status);
+		values.put("entity", wf);
+
+
+
+		entity=new ResponseEntity<>(values,HttpStatus.OK);
+
+
+
+
+
+
+		return entity;
+
+
+
+
+
+
+	}
+
+
+
+
+		@ApiOperation(value="SKTWeatherOpenApi로 조회한 날씨정보, 3시간 단위 갱신됩니다(좌표기반)",response=WeatherForecast.class,produces="application/json")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name="latitude",value="좌표정보 lat",dataType = "String",paramType="query"),
 			@ApiImplicitParam(name="longitude",value="좌표정보 lon",dataType = "String",paramType="query")

@@ -1,8 +1,8 @@
 package org.prj.arachne.presentation.dto.signup;
 
 
-import org.prj.arachne.domain.member.valueObj.Gender;
-import org.prj.arachne.domain.member.valueObj.PhysicalType;
+import org.prj.arachne.model.member.valueObj.Gender;
+import org.prj.arachne.model.member.valueObj.PhysicalType;
 
 import com.google.gson.Gson;
 

@@ -60,6 +60,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 				//.antMatchers("/**").permitAll()
+				.antMatchers(
+						HttpMethod.GET,
+						"/v2/api-docs","/swagger-ui.html", "/webjars/**", "favicon.ico"
+				).permitAll()
+				.antMatchers("/aaa").permitAll()
+				.antMatchers("/swagger-resources/**").permitAll()
+				.antMatchers("/api").permitAll()
+				.antMatchers("/api/v2/api-docs").permitAll()
+				.antMatchers("/v2/api-docs").permitAll()
+				.antMatchers("/swagger-ui.html").permitAll()
+				.antMatchers("/api/swagger-ui.html").permitAll()
 
 				.antMatchers("/auth/authorize").permitAll()
 				.antMatchers("/test/**").permitAll()
@@ -102,6 +113,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		  .antMatchers("/swagger-ui.html")
 		  .antMatchers("/webjars/**")
 		  .antMatchers("/swagger-resources/**")
+		  .antMatchers("/swagger-resources")
 		  .antMatchers("/v2/api-docs");
 	  }
 	

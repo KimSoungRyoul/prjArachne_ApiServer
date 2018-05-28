@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.prj.arachne.application.MemberInfoService;
-import org.prj.arachne.domain.member.MemberAccount;
-import org.prj.arachne.domain.member.MemberInfo;
-import org.prj.arachne.domain.member.valueObj.Gender;
-import org.prj.arachne.domain.member.valueObj.Password;
-import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
-import org.prj.arachne.domain.member.valueObj.PhysicalType;
+import org.prj.arachne.model.member.MemberAccount;
+import org.prj.arachne.model.member.MemberInfo;
+import org.prj.arachne.model.member.valueObj.Gender;
+import org.prj.arachne.model.member.valueObj.Password;
+import org.prj.arachne.model.member.valueObj.PhysicalInfo;
+import org.prj.arachne.model.member.valueObj.PhysicalType;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
@@ -31,7 +31,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.Example;
 import lombok.extern.log4j.Log4j;
 
 @Api(value="회원정보 조회Api",description="회원 정보 관련 Api")

@@ -59,7 +59,11 @@ spring:
       mail.smtp.starttls.enable: true
       mail.smtp.starttls.required: true
  
- 
+  data:
+    mongodb:
+
+      uri: mongodb://www.ksr.pe.kr:27017/arachne_db
+
  
  
  
@@ -94,7 +98,8 @@ spring:
     password: 1234 
   
   session:
-    store-type: redis  
+    store-type: redis
+
  
  
   mail:

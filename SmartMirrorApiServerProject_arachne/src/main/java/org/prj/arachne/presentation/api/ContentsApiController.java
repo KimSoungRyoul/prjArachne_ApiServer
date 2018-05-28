@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.prj.arachne.application.ContentsService;
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
-import org.prj.arachne.domain.fileinfo.FileInfo;
+import org.prj.arachne.model.fileinfo.FileInfo;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
@@ -55,7 +55,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	@Autowired
 	private ContentsService contentsService;
 
-	@ApiOperation(value="컨텐츠를 불러옵니다",produces="application/json")
+	@ApiOperation(value="컨텐츠를 불러옵니다",produces="application/json",response = InputStreamResource.class)
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="requesttype",dataType="String",
 								value="download 또는 streaming 값중 하나 넣으시면 됩니다 ",paramType="query"),
@@ -92,7 +92,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	}
 
 	
-	@ApiOperation(value="컨텐츠를 fileServer에 저장합니다",produces="application/json")
+	@ApiOperation(value="컨텐츠를 fileServer에 저장합니다",produces = "application/json")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="fileNickName",dataType="String",
 				value="클라이언트에서 파일 닉네임 정해주세요, 회원이 소유한파일들중에서는 이름이 고유해야합니다"
