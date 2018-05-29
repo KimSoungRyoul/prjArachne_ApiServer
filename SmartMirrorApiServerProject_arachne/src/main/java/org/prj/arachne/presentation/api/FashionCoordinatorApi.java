@@ -3,7 +3,7 @@ package org.prj.arachne.presentation.api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.prj.arachne.model.fileinfo.valueObj.FileType;
+import org.prj.arachne.domain.fileinfo.valueObj.FileType;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.util.file.MediaUtils;
 import org.springframework.beans.factory.annotation.Autowired;

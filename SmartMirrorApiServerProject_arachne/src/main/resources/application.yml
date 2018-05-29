@@ -80,7 +80,11 @@ server:
 
 spring:
   profiles: product
-  
+
+  data:
+    mongodb:
+      uri: mongodb://www.ksr.pe.kr:27017/arachne_db
+
   datasource:
     url: jdbc:mysql://arachnedatabase.cpmqq8pzapbm.ap-northeast-2.rds.amazonaws.com:3306/arachne_db?useSSL=false&characterEncoding=utf8
     username: sky5367
@@ -96,11 +100,11 @@ spring:
     port: 6379 
     host: www.ksr.pe.kr
     password: 1234 
-  
+
   session:
     store-type: redis
 
- 
+
  
   mail:
     host: smtp.gmail.com 

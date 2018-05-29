@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.prj.arachne.application.OpenApiService;
-import org.prj.arachne.model.weather.SimpleWeather;
-import org.prj.arachne.model.weather.WeatherForecast;
+import org.prj.arachne.domain.weather.SimpleWeather;
+import org.prj.arachne.domain.weather.WeatherForecast;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;

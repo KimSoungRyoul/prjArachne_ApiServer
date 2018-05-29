@@ -12,13 +12,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.prj.arachne.application.ContentsService;
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
-import org.prj.arachne.model.fileinfo.FileInfo;
+import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
 import org.prj.arachne.util.file.MediaUtils;
 import org.prj.arachne.util.file.MultipartFileStreamingSender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,7 @@ public class ContentsApiController implements Version1ApiMapping{
 	
 	
 	@Autowired
+	@Qualifier("uploadFilePath")
 	private String filePathDefault;
 
 	@Autowired

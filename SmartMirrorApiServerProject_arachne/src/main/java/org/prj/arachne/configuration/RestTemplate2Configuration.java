@@ -18,6 +18,16 @@ public class RestTemplate2Configuration {
 		
 		return restTemplate;
 	}
+
+	@Qualifier("fcm")
+	@Bean
+	public RestTemplate restTemplateForFCM() {
+
+		RestTemplate restTemplate=new RestTemplate();
+
+
+		return restTemplate;
+	}
 	
 	
 	

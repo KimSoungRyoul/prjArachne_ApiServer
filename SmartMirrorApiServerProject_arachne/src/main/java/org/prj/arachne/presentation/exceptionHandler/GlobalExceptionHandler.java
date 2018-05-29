@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.prj.arachne.application.exception.ArachneNickAndUserEmialDuplicatedException;
+import org.prj.arachne.application.exception.FailTOFCMPushMessageException;
 import org.prj.arachne.application.exception.FailToDoItemServiceException;
 import org.prj.arachne.application.exception.FailUpdateToDoItemServiceException;
 import org.prj.arachne.application.exception.UnSignedMemberException;
@@ -42,6 +43,18 @@ public class GlobalExceptionHandler {
 
         response.put("status", new StatusEntity("Schedule Api ", ArachneStatus.BADIO,
                 "toDoItem 관련 요청이 실패했습니다 input 형식을 검토해주세요"));
+
+        return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
+
+    }
+
+    @ExceptionHandler(value = FailTOFCMPushMessageException.class)
+    public ResponseEntity<Map<String, Object>> FailTOFCMPushMessageException() {
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", new StatusEntity("MirrorSetting Api ", ArachneStatus.BADIO,
+            "서버내부 데이터저장은 성공했지만 fcm에서 실패응답이 반환됨 회원의 to 가 잘못됬을 가능성이 큽니다"));
 
         return new ResponseEntity<Map<String, Object>>(response, HttpStatus.NOT_FOUND);
 

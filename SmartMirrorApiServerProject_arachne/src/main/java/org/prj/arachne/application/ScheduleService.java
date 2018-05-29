@@ -3,8 +3,8 @@ package org.prj.arachne.application;
 import lombok.AllArgsConstructor;
 import org.prj.arachne.application.exception.FailToDoItemServiceException;
 import org.prj.arachne.application.exception.FailUpdateToDoItemServiceException;
-import org.prj.arachne.model.Schedule.ToDoItem;
-import org.prj.arachne.model.Schedule.ToDoItemRepository;
+import org.prj.arachne.domain.Schedule.ToDoItem;
+import org.prj.arachne.domain.Schedule.ToDoItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -32,6 +32,14 @@ public class MultipartConfiguration {
 		return "/home/ubuntu/arachneFileStorage";
 	}
 
+
+	@Bean
+	@Qualifier("fcm")
+	public String fcmServerKey(){
+		return "key=AAAAB3Vpj3Y:APA91bG04sfqdPJpabqvVT2ZuEZvKfeY4Cb3ZBVFIu9D3_TjudMjwc_83G_5pSAJ87KP4Mh5VHXOSzPxG0YbFe_PpzB5VplmEEjY2nNG_gDx3CA9PS6i70E-STqhChViWztqTsomUwjy";
+	}
+
+
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
 	    MultipartConfigFactory factory = new MultipartConfigFactory();

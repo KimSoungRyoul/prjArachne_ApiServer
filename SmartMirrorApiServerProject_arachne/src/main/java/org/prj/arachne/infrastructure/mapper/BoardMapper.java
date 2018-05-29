@@ -3,8 +3,8 @@ package org.prj.arachne.infrastructure.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.prj.arachne.model.board.Board;
-import org.prj.arachne.model.board.valueObj.SearchCriteria;
+import org.prj.arachne.domain.board.Board;
+import org.prj.arachne.domain.board.valueObj.SearchCriteria;
 
 @Mapper
 public interface BoardMapper {

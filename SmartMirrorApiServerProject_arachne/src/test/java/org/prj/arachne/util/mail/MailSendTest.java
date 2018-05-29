@@ -20,6 +20,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+/*
 
 @RunWith(SpringRunner.class)
 @ActiveProfiles("dev")
@@ -54,7 +55,8 @@ public class MailSendTest {
 		MailDTO dto=new MailDTO();
 		dto.setTitle("메일 전송 테스트 제목 첨부파일 포함");
 		
-		/*File htmlFile=new File(uploadPath+"/index.html");
+		*/
+/*File htmlFile=new File(uploadPath+"/index.html");
 		
 		StringBuilder sb=new StringBuilder();
 		 BufferedReader in;
@@ -71,7 +73,8 @@ public class MailSendTest {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
+		}*//*
+
 
 
 
@@ -113,3 +116,4 @@ public class MailSendTest {
 	}
 
 }
+*/

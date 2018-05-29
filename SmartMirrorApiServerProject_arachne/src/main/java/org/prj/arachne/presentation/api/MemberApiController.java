@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.prj.arachne.application.MemberInfoService;
-import org.prj.arachne.model.member.MemberAccount;
-import org.prj.arachne.model.member.MemberInfo;
-import org.prj.arachne.model.member.valueObj.Gender;
-import org.prj.arachne.model.member.valueObj.Password;
-import org.prj.arachne.model.member.valueObj.PhysicalInfo;
-import org.prj.arachne.model.member.valueObj.PhysicalType;
+import org.prj.arachne.domain.member.MemberAccount;
+import org.prj.arachne.domain.member.MemberInfo;
+import org.prj.arachne.domain.member.valueObj.Gender;
+import org.prj.arachne.domain.member.valueObj.Password;
+import org.prj.arachne.domain.member.valueObj.PhysicalInfo;
+import org.prj.arachne.domain.member.valueObj.PhysicalType;
 import org.prj.arachne.presentation.api.urlmapper.Version1ApiMapping;
 import org.prj.arachne.presentation.dto.ArachneStatus;
 import org.prj.arachne.presentation.dto.StatusEntity;
@@ -84,6 +84,7 @@ public class MemberApiController implements Version1ApiMapping{
 		MemberAccount newMember=new MemberAccount(null, mDto.getUserEmail(),
 				new Date(), 
 				new Password(mDto.getPassword()),
+				mDto.getFcmToken(),
 				new MemberInfo(null, null, 
 						mDto.getMemberInfo().getName(),
 						mDto.getMemberInfo().getPhoneNum(),

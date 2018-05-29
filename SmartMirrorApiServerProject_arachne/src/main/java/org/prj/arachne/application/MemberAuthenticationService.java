@@ -1,7 +1,7 @@
 package org.prj.arachne.application;
 
-import org.prj.arachne.model.member.MemberAccount;
-import org.prj.arachne.model.member.repository.MemberAccountRepository;
+import org.prj.arachne.domain.member.MemberAccount;
+import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

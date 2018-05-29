@@ -3,7 +3,7 @@ package org.prj.arachne.presentation.api;
 import javax.servlet.http.HttpSession;
 
 import org.prj.arachne.application.MemberAuthenticationService;
-import org.prj.arachne.model.member.MemberAccount;
+import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.presentation.dto.AuthenticationRequest;
 import org.prj.arachne.presentation.dto.AuthenticationToken;
 import org.springframework.beans.factory.annotation.Autowired;
