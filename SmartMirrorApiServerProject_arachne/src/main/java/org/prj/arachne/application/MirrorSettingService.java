@@ -51,6 +51,8 @@ public class MirrorSettingService {
             notification.setTitle("mirrorSettingData");
             notification.setBody(new Gson().toJson(dto));
 
+            fcMessageDTO.setNotification(notification);
+
             int isSuccess= fcmUtil.pushMessage(fcMessageDTO);
 
             if(isSuccess!=1){

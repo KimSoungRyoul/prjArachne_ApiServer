@@ -32,7 +32,7 @@ import lombok.Setter;
 public class MemberAuthority implements GrantedAuthority {
 
 	@Transient
-	private static final long serialVersionUID = -6331748954539978521L;
+	private static final long serialVersionUID = -8710603095892697332L;
 
 	@Id
 	@GeneratedValue
