@@ -4,9 +4,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
 import javax.annotation.PostConstruct;
-
+import lombok.extern.log4j.Log4j;
 import org.prj.arachne.domain.Schedule.ToDoItem;
 import org.prj.arachne.domain.fileinfo.FileInfo;
 import org.prj.arachne.domain.fileinfo.repository.FileInfoRepository;
@@ -32,8 +31,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import lombok.extern.log4j.Log4j;
 
 
 
@@ -102,8 +99,11 @@ public class InitService {
 		ToDoItem toDoItem=new ToDoItem(null,null,new Date(),"testTitle","conte가나다라마바사fasdasfasd");
 
 		MemberAccount memberAccount=new MemberAccount(1L);
+    memberAccount.setFcmRedirectToken(
+        "dBbekBDi8Q0:APA91bFK6TDHICKwJ2IUGBUeKHUoUewoGeqX-prgP1NesOoAER8tkQlzXYwZT4ZWwqdgB4no63TymV_br1UC0PwTgui9T3dyA2RaoiKreQze0bLpNz3sTfxMrvQgfQuV4VtO20O8GtDE");
 
 		toDoItem.setItemOwner(memberAccount);
+
 
 		scheduleService.registerToDoItem(toDoItem);
 
@@ -117,6 +117,8 @@ public class InitService {
 		mAcc.setEmail("KimSoungRyoul@gmail.com");
 		mAcc.setPassword(new Password(this.passwordEncoder.encode("12345")));
 		mAcc.setAccountNonLocked(true);
+    mAcc.setFcmRedirectToken(
+        "dBbekBDi8Q0:APA91bFK6TDHICKwJ2IUGBUeKHUoUewoGeqX-prgP1NesOoAER8tkQlzXYwZT4ZWwqdgB4no63TymV_br1UC0PwTgui9T3dyA2RaoiKreQze0bLpNz3sTfxMrvQgfQuV4VtO20O8GtDE");
 		//mAcc.setMInfo(mInfo);
 		mAcc.setJoinDate(new Date());
 		

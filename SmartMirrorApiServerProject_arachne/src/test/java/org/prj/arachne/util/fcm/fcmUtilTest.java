@@ -3,6 +3,8 @@ package org.prj.arachne.util.fcm;
 import lombok.extern.log4j.Log4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.prj.arachne.configuration.MultipartConfiguration;
+import org.prj.arachne.configuration.RestTemplate2Configuration;
 import org.prj.arachne.presentation.dto.FCMessageDTO;
 import org.prj.arachne.presentation.dto.FCMessageDTO.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-/*
+
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest(classes = {MultipartConfiguration.class, FCMUtil.class,
+    RestTemplate2Configuration.class})
 @ActiveProfiles("dev")
 @Log4j
 public class fcmUtilTest {
@@ -34,13 +37,11 @@ public class fcmUtilTest {
 
     fcMessageDTO.setNotification(notification);
 
-
-
-    String isSuccess= fcmUtil.pushMessage(fcMessageDTO);
+    int isSuccess = fcmUtil.pushMessage(fcMessageDTO);
 
     log.info("IsSuccess : "+isSuccess);
   }
 
 
 }
-*/
+

@@ -1,6 +1,5 @@
 package org.prj.arachne.application;
 
-import com.google.gson.Gson;
 import lombok.AllArgsConstructor;
 import org.prj.arachne.application.exception.FailTOFCMPushMessageException;
 import org.prj.arachne.application.exception.UnSignedMemberException;
@@ -8,6 +7,7 @@ import org.prj.arachne.domain.member.MemberAccount;
 import org.prj.arachne.domain.member.MemberMirrorSettingInfo;
 import org.prj.arachne.domain.member.repository.MemberAccountRepository;
 import org.prj.arachne.domain.member.repository.MemberMirrorSettingInfoRepository;
+import org.prj.arachne.presentation.dto.ChangedDataType;
 import org.prj.arachne.presentation.dto.FCMessageDTO;
 import org.prj.arachne.presentation.dto.FCMessageDTO.Notification;
 import org.prj.arachne.presentation.dto.MirrorSettingDTO;
@@ -49,7 +49,7 @@ public class MirrorSettingService {
             fcMessageDTO.setTo(memberAccount.getFcmRedirectToken());
             Notification notification =new Notification();
             notification.setTitle("mirrorSettingData");
-            notification.setBody(new Gson().toJson(dto));
+            notification.setBody(ChangedDataType.POS.toString());
 
             fcMessageDTO.setNotification(notification);
 
